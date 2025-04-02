@@ -106,7 +106,7 @@ if df is not None:
         low_counts,
         x="value",
         y="probability",
-        title="Probability Distribution of Low Bucket",
+        title="Low of Hour Bucket",
         labels={"value": "Low Bucket", "probability": "Probability"},
         # Format the probability as a percentage (e.g., "12.34%")
         text=low_counts["probability"].apply(lambda x: f"{x:.2%}")
@@ -125,7 +125,7 @@ if df is not None:
         high_counts,
         x="value",
         y="probability",
-        title="Probability Distribution of High Bucket",
+        title="High of Hour Bucket",
         labels={"value": "High Bucket", "probability": "Probability"},
         text=high_counts["probability"].apply(lambda x: f"{x:.2%}")
     )
