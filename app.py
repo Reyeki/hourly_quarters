@@ -68,24 +68,31 @@ if df is not None:
     high_counts = df["high_bucket"].value_counts(normalize=True).reset_index()
     high_counts.columns = ["value", "probability"]
 
-    # Create Plotly bar charts for each bucket
+    # Create a bar chart for "low bucket" probabilities with text annotations
     fig_low = px.bar(
         low_counts,
         x="value",
         y="probability",
         title="Probability Distribution of Low Bucket",
-        labels={"value": "Low Bucket", "probability": "Probability"}
+        labels={"value": "Low Bucket", "probability": "Probability"},
+        # Format the probability as a percentage (e.g., "12.34%")
+        text=low_counts["probability"].apply(lambda x: f"{x:.2%}")
     )
+    # Position the text annotations outside the bars
+    fig_low.update_traces(textposition="outside")
 
+    # Create a bar chart for "high bucket" probabilities with text annotations
     fig_high = px.bar(
         high_counts,
         x="value",
         y="probability",
         title="Probability Distribution of High Bucket",
-        labels={"value": "High Bucket", "probability": "Probability"}
+        labels={"value": "High Bucket", "probability": "Probability"},
+        text=high_counts["probability"].apply(lambda x: f"{x:.2%}")
     )
+    fig_high.update_traces(textposition="outside")
 
-    # Display the charts side by side using st.columns
+    # Display the two charts side by side using st.columns
     col1, col2 = st.columns(2)
     col1.plotly_chart(fig_low, use_container_width=True)
     col2.plotly_chart(fig_high, use_container_width=True)
