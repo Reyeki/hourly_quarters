@@ -48,7 +48,7 @@ if st.sidebar.button("Logout"):
     st.rerun()
 
 # Upload CSV File
-url = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/NQ_Hourly_Quartal_1min_Processed_from_2016.csv"
+url = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/Merged_Hourly_Quartal_1min_Processed_from_2016.csv"
 df = pd.read_csv(url)
 
 if df is not None:
@@ -141,3 +141,19 @@ if df is not None:
     col1, col2 = st.columns(2)
     col1.plotly_chart(fig_low, use_container_width=True)
     col2.plotly_chart(fig_high, use_container_width=True)
+
+# Calculate distribution of hour_direction in the filtered data
+hour_direction_counts = filtered_df['hour_direction'].value_counts().reset_index()
+hour_direction_counts.columns = ['direction', 'count']
+
+# Create a pie chart using Plotly
+fig_pie = px.pie(
+    hour_direction_counts,
+    names='direction',
+    values='count',
+    title='Hour Direction Distribution',
+    hole=0.3  # Optional: Makes it a donut chart. Remove if you want a solid pie.
+)
+
+# Display the pie chart full-width
+st.plotly_chart(fig_pie, use_container_width=True)
