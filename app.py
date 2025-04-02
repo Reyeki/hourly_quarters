@@ -101,6 +101,7 @@ if df is not None:
     high_counts.columns = ["value", "probability"]
 
     # Create a bar chart for "low bucket" probabilities with text annotations
+    desired_order = ["Q1", "Q2", "Q3", "Q4"]
     fig_low = px.bar(
         low_counts,
         x="value",
@@ -112,6 +113,12 @@ if df is not None:
     )
     # Position the text annotations outside the bars
     fig_low.update_traces(textposition="outside")
+    fig_low.update_layout(
+    xaxis=dict(
+        categoryorder='array',
+        categoryarray=desired_order
+    )
+)
 
     # Create a bar chart for "high bucket" probabilities with text annotations
     fig_high = px.bar(
@@ -123,6 +130,12 @@ if df is not None:
         text=high_counts["probability"].apply(lambda x: f"{x:.2%}")
     )
     fig_high.update_traces(textposition="outside")
+    fig_high.update_layout(
+    xaxis=dict(
+        categoryorder='array',
+        categoryarray=desired_order
+    )
+)
 
     # Display the two charts side by side using st.columns
     col1, col2 = st.columns(2)
