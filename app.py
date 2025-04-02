@@ -61,6 +61,15 @@ if df is not None:
     day_options = ['All'] + ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
     selected_day = st.sidebar.selectbox("Day of Week", day_options)
 
+    # Centered line with four Q-direction dropdowns
+    st.markdown("### Filter by Quartal Directions")
+    q_col1, q_col2, q_col3, q_col4, _ = st.columns([1, 1, 1, 1, 2])  # Extra column for centering
+
+    q1_filter = q_col1.selectbox("Q1", options=["All"] + sorted(df["Q1_direction"].dropna().unique().tolist()))
+    q2_filter = q_col2.selectbox("Q2", options=["All"] + sorted(df["Q2_direction"].dropna().unique().tolist()))
+    q3_filter = q_col3.selectbox("Q3", options=["All"] + sorted(df["Q3_direction"].dropna().unique().tolist()))
+    q4_filter = q_col4.selectbox("Q4", options=["All"] + sorted(df["Q4_direction"].dropna().unique().tolist()))
+
     ###  Apply Filters
     filtered_df = df[df['Instrument'] == selected_instrument]
 
@@ -73,6 +82,16 @@ if df is not None:
     if selected_day != 'All':
         # Assumes you have a column like 'Day' with string values like 'Monday'
         filtered_df = filtered_df[filtered_df['day_of_week'] == selected_day]
+
+    # Filter by Q directions
+    if q1_filter != "All":
+        filtered_df = filtered_df[filtered_df['Q1_direction'] == q1_filter]
+    if q2_filter != "All":
+        filtered_df = filtered_df[filtered_df['Q2_direction'] == q2_filter]
+    if q3_filter != "All":
+        filtered_df = filtered_df[filtered_df['Q3_direction'] == q3_filter]
+    if q4_filter != "All":
+        filtered_df = filtered_df[filtered_df['Q4_direction'] == q4_filter]
 
     # Calculate probability distributions for "low bucket" and "high bucket"
     low_counts = filtered_df["low_bucket"].value_counts(normalize=True).reset_index()
