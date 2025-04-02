@@ -48,7 +48,7 @@ if st.sidebar.button("Logout"):
     st.rerun()
 
 # Upload CSV File
-url = 'https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/NQ_Hourly_Quartal_1min_Processed_from_2016.csv
+url = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/NQ_Hourly_Quartal_1min_Processed_from_2016.csv"
 uploaded_file = pd.read_csv(url)
 
 if uploaded_file is not None:
