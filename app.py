@@ -62,10 +62,10 @@ if df is not None:
     selected_day = st.sidebar.selectbox("Day of Week", day_options)
 
     # Calculate probability distributions for "low bucket" and "high bucket"
-    low_counts = df["low bucket"].value_counts(normalize=True).reset_index()
+    low_counts = df["low_bucket"].value_counts(normalize=True).reset_index()
     low_counts.columns = ["value", "probability"]
 
-    high_counts = df["high bucket"].value_counts(normalize=True).reset_index()
+    high_counts = df["high_bucket"].value_counts(normalize=True).reset_index()
     high_counts.columns = ["value", "probability"]
 
     # Create Plotly bar charts for each bucket
