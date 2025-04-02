@@ -18,7 +18,7 @@ if "username" not in st.session_state:
 
 # ✅ Login form (only shown if not authenticated)
 if not st.session_state["authenticated"]:
-    st.title("Login to M7Box Database")
+    st.title("Login to Database")
 
     # Username and password fields
     username = st.text_input("Username:")
@@ -49,10 +49,9 @@ if st.sidebar.button("Logout"):
 
 # Upload CSV File
 url = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/NQ_Hourly_Quartal_1min_Processed_from_2016.csv"
-uploaded_file = pd.read_csv(url)
+df = pd.read_csv(url)
 
-if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
+if df is not None:
 
     ### **Sidebar: Select Instrument and DR Range**
     instrument_options = df['Instrument'].dropna().unique().tolist()
