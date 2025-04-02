@@ -57,9 +57,35 @@ if df is not None:
     instrument_options = df['Instrument'].dropna().unique().tolist()
     selected_instrument = st.sidebar.selectbox("Select Instrument", instrument_options)
     hour_options = ['All'] + list(range(0, 24))
-    selected_hour= st.sidebar.selectbox("Select Hour", hour_options)
+    selected_hour = st.sidebar.selectbox("Select Hour", hour_options)
     day_options = ['All'] + ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
     selected_day = st.sidebar.selectbox("Day of Week", day_options)
 
-    ### **Main Panel: Filters Above Graph**
+    # Calculate probability distributions for "low bucket" and "high bucket"
+    low_counts = df["low bucket"].value_counts(normalize=True).reset_index()
+    low_counts.columns = ["value", "probability"]
+
+    high_counts = df["high bucket"].value_counts(normalize=True).reset_index()
+    high_counts.columns = ["value", "probability"]
+
+    # Create Plotly bar charts for each bucket
+    fig_low = px.bar(
+        low_counts,
+        x="value",
+        y="probability",
+        title="Probability Distribution of Low Bucket",
+        labels={"value": "Low Bucket", "probability": "Probability"}
+    )
+
+    fig_high = px.bar(
+        high_counts,
+        x="value",
+        y="probability",
+        title="Probability Distribution of High Bucket",
+        labels={"value": "High Bucket", "probability": "Probability"}
+    )
+
+    # Display the charts side by side using st.columns
     col1, col2 = st.columns(2)
+    col1.plotly_chart(fig_low, use_container_width=True)
+    col2.plotly_chart(fig_high, use_container_width=True)
