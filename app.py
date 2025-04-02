@@ -67,12 +67,12 @@ if df is not None:
     # Optional: Apply hour filter (if it's not "All")
     if selected_hour != 'All':
         # Assumes you have a column like 'Hour' as int. If not, adapt accordingly.
-        filtered_df = filtered_df[filtered_df['Hour'] == selected_hour]
+        filtered_df = filtered_df[filtered_df['hour'] == selected_hour]
 
     # Optional: Apply day filter (if it's not "All")
     if selected_day != 'All':
         # Assumes you have a column like 'Day' with string values like 'Monday'
-        filtered_df = filtered_df[filtered_df['Day'] == selected_day]
+        filtered_df = filtered_df[filtered_df['day_of_week'] == selected_day]
 
     # Calculate probability distributions for "low bucket" and "high bucket"
     low_counts = df["low_bucket"].value_counts(normalize=True).reset_index()
