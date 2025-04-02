@@ -61,6 +61,19 @@ if df is not None:
     day_options = ['All'] + ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
     selected_day = st.sidebar.selectbox("Day of Week", day_options)
 
+    ###  Apply Filters
+    filtered_df = df[df['Instrument'] == selected_instrument]
+
+    # Optional: Apply hour filter (if it's not "All")
+    if selected_hour != 'All':
+        # Assumes you have a column like 'Hour' as int. If not, adapt accordingly.
+        filtered_df = filtered_df[filtered_df['Hour'] == selected_hour]
+
+    # Optional: Apply day filter (if it's not "All")
+    if selected_day != 'All':
+        # Assumes you have a column like 'Day' with string values like 'Monday'
+        filtered_df = filtered_df[filtered_df['Day'] == selected_day]
+
     # Calculate probability distributions for "low bucket" and "high bucket"
     low_counts = df["low_bucket"].value_counts(normalize=True).reset_index()
     low_counts.columns = ["value", "probability"]
