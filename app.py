@@ -142,8 +142,6 @@ if df is not None:
     col1.plotly_chart(fig_low, use_container_width=True)
     col2.plotly_chart(fig_high, use_container_width=True)
 
-st.markdown("### Hour Direction Breakdown")
-
 # Calculate distribution of hour_direction in the filtered data
 hour_direction_counts = filtered_df['hour_direction'].value_counts().reset_index()
 hour_direction_counts.columns = ['direction', 'count']
