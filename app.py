@@ -75,10 +75,10 @@ if df is not None:
         filtered_df = filtered_df[filtered_df['day_of_week'] == selected_day]
 
     # Calculate probability distributions for "low bucket" and "high bucket"
-    low_counts = df["low_bucket"].value_counts(normalize=True).reset_index()
+    low_counts = filtered_df["low_bucket"].value_counts(normalize=True).reset_index()
     low_counts.columns = ["value", "probability"]
 
-    high_counts = df["high_bucket"].value_counts(normalize=True).reset_index()
+    high_counts = filtered_df["high_bucket"].value_counts(normalize=True).reset_index()
     high_counts.columns = ["value", "probability"]
 
     # Create a bar chart for "low bucket" probabilities with text annotations
