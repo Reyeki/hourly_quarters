@@ -70,7 +70,7 @@ if df is not None:
     q3_filter = q_col3.selectbox("Q3", options=["All"] + sorted(df["Q3_direction"].dropna().unique().tolist()))
     q4_filter = q_col4.selectbox("Q4", options=["All"] + sorted(df["Q4_direction"].dropna().unique().tolist()))
     prev_hour_filter = q_col5.selectbox("Previous Hour Direction", options=["All"] + ["Long", "Short", "Neutral"])
-    orb_filter = q_col6.selectbox("Previous Hour Direction", options=["All"] + ["Long", "Short"])
+    orb_filter = q_col6.selectbox("ORB Direction", options=["All"] + ["Long", "Short"])
 
     ###  Apply Filters
     filtered_df = df[df['Instrument'] == selected_instrument]
