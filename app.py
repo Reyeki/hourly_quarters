@@ -150,10 +150,12 @@ if df is not None:
     col2.plotly_chart(fig_high, use_container_width=True)
 
 # Calculate distribution of hour_direction in the filtered data
+# Normalize direction values
+filtered_df['hour_direction'] = filtered_df['hour_direction'].str.strip().str.title()
+
+# Recalculate counts
 hour_direction_counts = filtered_df['hour_direction'].value_counts().reset_index()
 hour_direction_counts.columns = ['direction', 'count']
-st.write(hour_direction_counts['direction'].unique())
-
 
 direction_order = ["Long", "Short", "Neutral"]
 direction_colors = {
