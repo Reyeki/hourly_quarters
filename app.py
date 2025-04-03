@@ -169,6 +169,7 @@ fig_pie = px.pie(
     hour_direction_counts,
     names='direction',
     values='count',
+    color='direction',  # ✅ This is the missing piece!
     title='Hour Direction Distribution',
     hole=0.3,  # Optional: Makes it a donut chart. Remove if you want a solid pie.
     category_orders={'direction': direction_order},
