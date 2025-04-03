@@ -153,6 +153,13 @@ if df is not None:
 hour_direction_counts = filtered_df['hour_direction'].value_counts().reset_index()
 hour_direction_counts.columns = ['direction', 'count']
 
+direction_order = ["Up", "Down", "Neutral"]
+direction_colors = {
+    "Up": "#2ecc71",       # Green
+    "Down": "#e74c3c",     # Red
+    "Neutral": "#95a5a6"   # Gray
+}
+
 # Create a pie chart using Plotly
 fig_pie = px.pie(
     hour_direction_counts,
@@ -160,6 +167,8 @@ fig_pie = px.pie(
     values='count',
     title='Hour Direction Distribution',
     hole=0.3  # Optional: Makes it a donut chart. Remove if you want a solid pie.
+    category_orders={'direction': direction_order},
+    color_discrete_map=direction_colors
 )
 
 # Display the pie chart full-width
