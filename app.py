@@ -62,7 +62,7 @@ if df is not None:
     selected_day = st.sidebar.selectbox("Day of Week", day_options)
 
     # Centered line with four Q-direction dropdowns
-    st.markdown("### Filter by Quartal Directions")
+    st.markdown("### Filters")
     q_col1, q_col2, q_col3, q_col4, q_col5, q_col6 = st.columns([1, 1, 1, 1, 1, 1])  # Extra column for centering
 
     q1_filter = q_col1.selectbox("Q1", options=["All"] + sorted(df["Q1_direction"].dropna().unique().tolist()))
