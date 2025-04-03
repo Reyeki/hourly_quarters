@@ -152,6 +152,8 @@ if df is not None:
 # Calculate distribution of hour_direction in the filtered data
 hour_direction_counts = filtered_df['hour_direction'].value_counts().reset_index()
 hour_direction_counts.columns = ['direction', 'count']
+st.write(hour_direction_counts['direction'].unique())
+
 
 direction_order = ["Long", "Short", "Neutral"]
 direction_colors = {
