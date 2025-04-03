@@ -153,10 +153,10 @@ if df is not None:
 hour_direction_counts = filtered_df['hour_direction'].value_counts().reset_index()
 hour_direction_counts.columns = ['direction', 'count']
 
-direction_order = ["Up", "Down", "Neutral"]
+direction_order = ["Long", "Short", "Neutral"]
 direction_colors = {
-    "Up": "#2ecc71",       # Green
-    "Down": "#e74c3c",     # Red
+    "Long": "#2ecc71",       # Green
+    "Short": "#e74c3c",     # Red
     "Neutral": "#95a5a6"   # Gray
 }
 
