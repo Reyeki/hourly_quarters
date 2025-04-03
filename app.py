@@ -178,3 +178,4 @@ fig_pie = px.pie(
 
 # Display the pie chart full-width
 st.plotly_chart(fig_pie, use_container_width=True)
+st.caption(f"Sample size: {len(filtered_df):,} rows")
