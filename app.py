@@ -161,7 +161,7 @@ direction_order = ["Long", "Short", "Neutral"]
 direction_colors = {
     "Long": "#2ecc71",       # Green
     "Short": "#e74c3c",     # Red
-    "Neutral": "#95a5a6"   # Gray
+    "Neutral": "#5d6d7e"   # Gray
 }
 
 # Create a pie chart using Plotly
