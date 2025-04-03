@@ -98,7 +98,7 @@ if df is not None:
     if prev_hour_filter != 'All':
         filtered_df = filtered_df[filtered_df['prev_hour_direction'] == prev_hour_filter] 
     if orb_filter != 'All':
-        filtered_df = filtered_df[filtered_df['orb_direction'] == orb_filter] 
+        filtered_df = filtered_df[filtered_df['ORB_direction'] == orb_filter] 
 
     # Calculate probability distributions for "low bucket" and "high bucket"
     low_counts = filtered_df["low_bucket"].value_counts(normalize=True).reset_index()
