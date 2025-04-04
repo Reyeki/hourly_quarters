@@ -48,13 +48,15 @@ if st.sidebar.button("Logout"):
     st.rerun()
 
 # Upload CSV File
-url = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/Merged_Hourly_Quartal_1min_Processed_from_2016.csv"
-df = pd.read_csv(url)
+url_1h = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/Merged_Hourly_Quartal_1min_Processed_from_2016.csv"
+url_3h = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/Merged_3H_Quartal_1min_Processed_from_2016.csv"
+df_1h = pd.read_csv(url_1h)
+df_3h = pd.read_csv(url_3h)
 
 if df is not None:
 
     ### **Sidebar: Select Instrument and DR Range**
-    instrument_options = df['Instrument'].dropna().unique().tolist()
+    instrument_options = df_1h['Instrument'].dropna().unique().tolist()
     selected_instrument = st.sidebar.selectbox("Select Instrument", instrument_options)
     hour_options = ['All'] + list(range(0, 24))
     selected_hour = st.sidebar.selectbox("Select Hour", hour_options)
@@ -65,46 +67,46 @@ if df is not None:
     st.markdown("### Filters")
     q_col1, q_col2, q_col3, q_col4, q_col5, q_col6 = st.columns([1, 1, 1, 1, 1, 1])  # Extra column for centering
 
-    q1_filter = q_col1.selectbox("Q1", options=["All"] + sorted(df["Q1_direction"].dropna().unique().tolist()))
-    q2_filter = q_col2.selectbox("Q2", options=["All"] + sorted(df["Q2_direction"].dropna().unique().tolist()))
-    q3_filter = q_col3.selectbox("Q3", options=["All"] + sorted(df["Q3_direction"].dropna().unique().tolist()))
-    q4_filter = q_col4.selectbox("Q4", options=["All"] + sorted(df["Q4_direction"].dropna().unique().tolist()))
+    q1_filter = q_col1.selectbox("Q1", options=["All"] + sorted(df_1h["Q1_direction"].dropna().unique().tolist()))
+    q2_filter = q_col2.selectbox("Q2", options=["All"] + sorted(df_1h["Q2_direction"].dropna().unique().tolist()))
+    q3_filter = q_col3.selectbox("Q3", options=["All"] + sorted(df_1h["Q3_direction"].dropna().unique().tolist()))
+    q4_filter = q_col4.selectbox("Q4", options=["All"] + sorted(df_1h["Q4_direction"].dropna().unique().tolist()))
     prev_hour_filter = q_col5.selectbox("Previous Hour Direction", options=["All"] + ["Long", "Short", "Neutral"])
     orb_filter = q_col6.selectbox("ORB Direction", options=["All"] + ["Long", "Short"])
 
     ###  Apply Filters
-    filtered_df = df[df['Instrument'] == selected_instrument]
-    filtered_df['prev_hour_direction'] = filtered_df['hour_direction'].shift(1)
+    filtered_df_1h = df_1h[df_1h['Instrument'] == selected_instrument]
+    filtered_df_1h['prev_hour_direction'] = filtered_df_1h['hour_direction'].shift(1)
 
     # Optional: Apply hour filter (if it's not "All")
     if selected_hour != 'All':
         # Assumes you have a column like 'Hour' as int. If not, adapt accordingly.
-        filtered_df = filtered_df[filtered_df['hour'] == selected_hour]
+        filtered_df_1h = filtered_df_1h[filtered_df_1h['hour'] == selected_hour]
 
     # Optional: Apply day filter (if it's not "All")
     if selected_day != 'All':
         # Assumes you have a column like 'Day' with string values like 'Monday'
-        filtered_df = filtered_df[filtered_df['day_of_week'] == selected_day]
+        filtered_df_1h = filtered_df_1h[filtered_df_1h['day_of_week'] == selected_day]
 
     # Filter by Q directions
     if q1_filter != "All":
-        filtered_df = filtered_df[filtered_df['Q1_direction'] == q1_filter]
+        filtered_df_1h = filtered_df_1h[filtered_df_1h['Q1_direction'] == q1_filter]
     if q2_filter != "All":
-        filtered_df = filtered_df[filtered_df['Q2_direction'] == q2_filter]
+        filtered_df_1h = filtered_df_1h[filtered_df_1h['Q2_direction'] == q2_filter]
     if q3_filter != "All":
-        filtered_df = filtered_df[filtered_df['Q3_direction'] == q3_filter]
+        filtered_df_1h = filtered_df_1h[filtered_df_1h['Q3_direction'] == q3_filter]
     if q4_filter != "All":
-        filtered_df = filtered_df[filtered_df['Q4_direction'] == q4_filter]
+        filtered_df_1h = filtered_df_1h[filtered_df_1h['Q4_direction'] == q4_filter]
     if prev_hour_filter != 'All':
-        filtered_df = filtered_df[filtered_df['prev_hour_direction'] == prev_hour_filter] 
+        filtered_df_1h = filtered_df_1h[filtered_df_1h['prev_hour_direction'] == prev_hour_filter] 
     if orb_filter != 'All':
-        filtered_df = filtered_df[filtered_df['ORB_direction'] == orb_filter] 
+        filtered_df_1h = filtered_df_1h[filtered_df_1h['ORB_direction'] == orb_filter] 
 
     # Calculate probability distributions for "low bucket" and "high bucket"
-    low_counts = filtered_df["low_bucket"].value_counts(normalize=True).reset_index()
+    low_counts = filtered_df_1h["low_bucket"].value_counts(normalize=True).reset_index()
     low_counts.columns = ["value", "probability"]
 
-    high_counts = filtered_df["high_bucket"].value_counts(normalize=True).reset_index()
+    high_counts = filtered_df_1h["high_bucket"].value_counts(normalize=True).reset_index()
     high_counts.columns = ["value", "probability"]
 
     # Create a bar chart for "low bucket" probabilities with text annotations
@@ -151,10 +153,10 @@ if df is not None:
 
 # Calculate distribution of hour_direction in the filtered data
 # Normalize direction values
-filtered_df['hour_direction'] = filtered_df['hour_direction'].str.strip().str.title()
+filtered_df_1h['hour_direction'] = filtered_df_1h['hour_direction'].str.strip().str.title()
 
 # Recalculate counts
-hour_direction_counts = filtered_df['hour_direction'].value_counts().reset_index()
+hour_direction_counts = filtered_df_1h['hour_direction'].value_counts().reset_index()
 hour_direction_counts.columns = ['direction', 'count']
 
 direction_order = ["Long", "Short", "Neutral"]
@@ -178,4 +180,4 @@ fig_pie = px.pie(
 
 # Display the pie chart full-width
 st.plotly_chart(fig_pie, use_container_width=True)
-st.caption(f"Sample size: {len(filtered_df):,} rows")
+st.caption(f"Sample size: {len(filtered_df_1h):,} rows")
