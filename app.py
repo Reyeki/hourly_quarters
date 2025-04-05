@@ -218,17 +218,17 @@ if df_3h is not None:
         filtered_df_3h = filtered_df_3h[filtered_df_3h['day_of_week'] == selected_day]
 
     # Filter by Q directions
-    if q1_filter != "All":
+    if q1_filter_3h != "All":
         filtered_df_3h = filtered_df_3h[filtered_df_3h['Q1_direction'] == q1_filter_3h]
-    if q2_filter != "All":
+    if q2_filter_3h != "All":
         filtered_df_3h = filtered_df_3h[filtered_df_3h['Q2_direction'] == q2_filter_3h]
-    if q3_filter != "All":
+    if q3_filter_3h != "All":
         filtered_df_3h = filtered_df_3h[filtered_df_3h['Q3_direction'] == q3_filter_3h]
-    if q4_filter != "All":
+    if q4_filter_3h != "All":
         filtered_df_3h = filtered_df_3h[filtered_df_3h['Q4_direction'] == q4_filter_3h]
-    if prev_hour_filter != 'All':
+    if prev_hour_filter_3h != 'All':
         filtered_df_3h = filtered_df_3h[filtered_df_3h['prev_three_hour_direction'] == prev_hour_filter_3h] 
-    if orb_filter != 'All':
+    if orb_filter_3h != 'All':
         filtered_df_3h = filtered_df_3h[filtered_df_3h['ORB_direction'] == orb_filter_3h] 
 
     # Calculate probability distributions for "low bucket" and "high bucket"
