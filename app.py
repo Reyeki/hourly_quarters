@@ -222,7 +222,7 @@ if df_3h is not None:
 
     # Centered line with four Q-direction dropdowns
     st.markdown("### 3H Filters")
-    q_col1_3h, q_col2_3h, q_col3_3h, q_col4_3h, q_col5_3h, q_col6_3h = st.columns([1, 1, 1, 1, 1, 1])  # Extra column for centering
+    q_col1_3h, q_col2_3h, q_col3_3h, q_col4_3h, q_col5_3h, q_col6_3h, q_col7_3h = st.columns([1, 1, 1, 1, 1, 1, 1.5])  # Extra column for centering
 
     q1_filter_3h = q_col1_3h.radio(
         "Q1",
@@ -257,6 +257,18 @@ if df_3h is not None:
                                     options=["All"] +sorted(df_3h["ORB_direction"].dropna().unique().tolist()),
                                     horizontal=False,
                                     key="orb_filter_3h")
+    with q_col7_3h:
+        low_filter_3h = st.multiselect(
+            "Low Exclusion",
+            options=sorted(df_3h["low_bucket"].dropna().unique().tolist()),
+            key="low_filter_3h"
+        )
+        high_filter_3h = st.multiselect(
+            "High Exclusion",
+            options=sorted(df_3h["high_bucket"].dropna().unique().tolist()),
+            key='high_filter_3h"
+        )
+
 
     ###  Apply Filters
     filtered_df_3h = df_3h[df_3h['Instrument'] == selected_instrument]
@@ -285,6 +297,10 @@ if df_3h is not None:
         filtered_df_3h = filtered_df_3h[filtered_df_3h['prev_three_hour_direction'] == prev_hour_filter_3h] 
     if orb_filter_3h != 'All':
         filtered_df_3h = filtered_df_3h[filtered_df_3h['ORB_direction'] == orb_filter_3h] 
+    if low_filter_3h:
+        filtered_df_3h = filtered_df_3h[~filtered_df_3h['low_bucket'].isin(low_filter)]
+    if high_filter_3h:
+        filtered_df_3h = filtered_df_3h[~filtered_df_3h['high_bucket'].isin(high_filter)]
 
     # Calculate probability distributions for "low bucket" and "high bucket"
     low_counts = filtered_df_3h["low_bucket"].value_counts(normalize=True).reset_index()
