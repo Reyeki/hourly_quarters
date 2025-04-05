@@ -67,7 +67,7 @@ if df_1h is not None:
 
     # Centered line with four Q-direction dropdowns
     st.markdown("### Hour Filters")
-    q_col1, q_col2, q_col3, q_col4, q_col5, q_col6, q_col7 = st.columns([1, 1, 1, 1, 1, 1, 2])  # Extra column for centering
+    q_col1, q_col2, q_col3, q_col4, q_col5, q_col6, q_col7 = st.columns([1, 1, 1, 1, 1, 1, 1.5])  # Extra column for centering
 
     q1_filter = q_col1.radio(
         "Q1",
