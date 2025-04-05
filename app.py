@@ -97,10 +97,10 @@ if df_1h is not None:
                               options=["All"] + sorted(df_1h["ORB_direction"].dropna().unique().tolist()),
                               horizontal=False)
     low_filter = q_col7.multiselect("Low Exclusion",
-                              options=["All"] + sorted(df_1h["low_bucket"].dropna().unique().tolist()),
+                              options=sorted(df_1h["low_bucket"].dropna().unique().tolist()),
                               )
     high_filter = q_col8.multiselect("High Exclusion",
-                              options=["All"] + sorted(df_1h["high_bucket"].dropna().unique().tolist()),
+                              options=sorted(df_1h["high_bucket"].dropna().unique().tolist()),
                               )
 
     ###  Apply Filters
@@ -130,9 +130,9 @@ if df_1h is not None:
         filtered_df_1h = filtered_df_1h[filtered_df_1h['prev_hour_direction'] == prev_hour_filter] 
     if orb_filter != 'All':
         filtered_df_1h = filtered_df_1h[filtered_df_1h['ORB_direction'] == orb_filter] 
-    if low_filter and "All" not in low_filter:
+    if low_filter:
         filtered_df_1h = filtered_df_1h[~filtered_df_1h['low_bucket'].isin(low_filter)]
-    if high_filter and "All" not in high_filter:
+    if high_filter:
         filtered_df_1h = filtered_df_1h[~filtered_df_1h['high_bucket'].isin(high_filter)]
 
     # Calculate probability distributions for "low bucket" and "high bucket"
