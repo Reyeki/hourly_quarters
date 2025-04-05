@@ -67,7 +67,7 @@ if df_1h is not None:
 
     # Centered line with four Q-direction dropdowns
     st.markdown("### Hour Filters")
-    q_col1, q_col2, q_col3, q_col4, q_col5, q_col6 = st.columns([1, 1, 1, 1, 1, 1])  # Extra column for centering
+    q_col1, q_col2, q_col3, q_col4, q_col5, q_col6, q_col7, q_col8 = st.columns([1, 1, 1, 1, 1, 1, 1, 1])  # Extra column for centering
 
     q1_filter = q_col1.radio(
         "Q1",
@@ -95,6 +95,12 @@ if df_1h is not None:
                                     horizontal=False)
     orb_filter = q_col6.radio("5m ORB Direction",
                               options=["All"] + sorted(df_1h["ORB_direction"].dropna().unique().tolist()),
+                              horizontal=False)
+    low_filter = q_col7.radio("Potenial Low",
+                              options=["All"] + sorted(df_1h["low_bucket"].dropna().unique().tolist()),
+                              horizontal=False)
+    high_filter = q_col8.radio("Potenial High",
+                              options=["All"] + sorted(df_1h["high_bucket"].dropna().unique().tolist()),
                               horizontal=False)
 
     ###  Apply Filters
@@ -124,6 +130,10 @@ if df_1h is not None:
         filtered_df_1h = filtered_df_1h[filtered_df_1h['prev_hour_direction'] == prev_hour_filter] 
     if orb_filter != 'All':
         filtered_df_1h = filtered_df_1h[filtered_df_1h['ORB_direction'] == orb_filter] 
+    if low_filter != 'All':
+        filtered_df_1h = filtered_df_1h[filtered_df_1h['low_bucket'] == low_filter]
+    if high_filter != 'All':
+        filtered_df_1h = filtered_df_1h[filtered_df_1h['high_bucket'] == high_filter] 
 
     # Calculate probability distributions for "low bucket" and "high bucket"
     low_counts = filtered_df_1h["low_bucket"].value_counts(normalize=True).reset_index()
