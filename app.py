@@ -69,7 +69,8 @@ if df_1h is not None:
     st.markdown("### Hour Filters")
     q_col1, q_col2, q_col3, q_col4, q_col5, q_col6 = st.columns([1, 1, 1, 1, 1, 1])  # Extra column for centering
 
-    q1_filter = q_col1.selectbox("Q1", options=["All"] + sorted(df_1h["Q1_direction"].dropna().unique().tolist()))
+    q1_filter = q_col1.radio("Q1", options=["All"] + sorted(df_1h["Q1_direction"].dropna().unique().tolist()),
+                            horizontal=True)
     q2_filter = q_col2.selectbox("Q2", options=["All"] + sorted(df_1h["Q2_direction"].dropna().unique().tolist()))
     q3_filter = q_col3.selectbox("Q3", options=["All"] + sorted(df_1h["Q3_direction"].dropna().unique().tolist()))
     q4_filter = q_col4.selectbox("Q4", options=["All"] + sorted(df_1h["Q4_direction"].dropna().unique().tolist()))
