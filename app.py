@@ -210,7 +210,7 @@ if df_3h is not None:
     # Optional: Apply hour filter (if it's not "All")
     if selected_three_hour != 'All':
         # Assumes you have a column like 'Hour' as int. If not, adapt accordingly.
-        filtered_df_3h = filtered_df_3h[filtered_df_3h['hour'] == selected_three_hour]
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['start_hour'] == selected_three_hour]
 
     # Optional: Apply day filter (if it's not "All")
     if selected_day != 'All':
