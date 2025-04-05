@@ -67,7 +67,7 @@ if df_1h is not None:
 
     # Centered line with four Q-direction dropdowns
     st.markdown("### Hour Filters")
-    q_col1, q_col2, q_col3, q_col4, q_col5, q_col6, q_col7, q_col8 = st.columns([1, 1, 1, 1, 1, 1, 1, 1])  # Extra column for centering
+    q_col1, q_col2, q_col3, q_col4, q_col5, q_col6, q_col7 = st.columns([1, 1, 1, 1, 1, 1, 1])  # Extra column for centering
 
     q1_filter = q_col1.radio(
         "Q1",
@@ -96,12 +96,15 @@ if df_1h is not None:
     orb_filter = q_col6.radio("5m ORB Direction",
                               options=["All"] + sorted(df_1h["ORB_direction"].dropna().unique().tolist()),
                               horizontal=False)
-    low_filter = q_col7.multiselect("Low Exclusion",
-                              options=sorted(df_1h["low_bucket"].dropna().unique().tolist()),
-                              )
-    high_filter = q_col8.multiselect("High Exclusion",
-                              options=sorted(df_1h["high_bucket"].dropna().unique().tolist()),
-                              )
+    with q_col7:
+        low_filter = st.multiselect(
+            "Low Exclusion",
+            options=sorted(df_1h["low_bucket"].dropna().unique().tolist())
+        )
+        high_filter = st.multiselect(
+            "High Exclusion",
+            options=sorted(df_1h["high_bucket"].dropna().unique().tolist())
+        )
 
     ###  Apply Filters
     filtered_df_1h = df_1h[df_1h['Instrument'] == selected_instrument]
