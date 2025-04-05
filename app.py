@@ -72,22 +72,22 @@ if df_1h is not None:
     q1_filter = st.radio(
         "Q1",
         options=["All", "Long", "Short", "Neutral"],
-        horizontal=True
+        horizontal=False
     )
     q2_filter = st.radio(
         "Q2",
         options=["All", "Long", "Short", "Neutral"],
-        horizontal=True
+        horizontal=False
     )
     q3_filter = st.radio(
         "Q3",
         options=["All", "Long", "Short", "Neutral"],
-        horizontal=True
+        horizontal=False
     )
     q4_filter = st.radio(
         "Q4",
         options=["All", "Long", "Short", "Neutral"],
-        horizontal=True
+        horizontal=False
     )
     
     
