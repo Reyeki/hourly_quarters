@@ -198,14 +198,14 @@ if df_3h is not None:
                                       key="q3_filter_3h")
     q4_filter_3h = q_col4_3h.selectbox("Q4", options=["All"] + sorted(df_3h["Q4_direction"].dropna().unique().tolist()),
                                       key="q4_filter_3h")
-    prev_hour_filter_3h = q_col5_3h.selectbox("Previous Hour Direction", options=["All"] + ["Long", "Short", "Neutral"],
+    prev_hour_filter_3h = q_col5_3h.selectbox("Previous Three Hour Direction", options=["All"] + ["Long", "Short", "Neutral"],
                                              key="prev_hour_filter_3h")
     orb_filter_3h = q_col6_3h.selectbox("ORB Direction", options=["All"] + ["Long", "Short"],
                                        key="orb_filter_3h")
 
     ###  Apply Filters
     filtered_df_3h = df_3h[df_3h['Instrument'] == selected_instrument]
-    filtered_df_3h['prev_hour_direction'] = filtered_df_3h['hour_direction'].shift(1)
+    filtered_df_3h['prev_three_hour_direction'] = filtered_df_3h['three_hour_direction'].shift(1)
 
     # Optional: Apply hour filter (if it's not "All")
     if selected_hour != 'All':
@@ -227,7 +227,7 @@ if df_3h is not None:
     if q4_filter != "All":
         filtered_df_3h = filtered_df_3h[filtered_df_3h['Q4_direction'] == q4_filter_3h]
     if prev_hour_filter != 'All':
-        filtered_df_3h = filtered_df_3h[filtered_df_3h['prev_hour_direction'] == prev_hour_filter_3h] 
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['prev_three_hour_direction'] == prev_hour_filter_3h] 
     if orb_filter != 'All':
         filtered_df_3h = filtered_df_3h[filtered_df_3h['ORB_direction'] == orb_filter_3h] 
 
@@ -282,7 +282,7 @@ if df_3h is not None:
 
 # Calculate distribution of hour_direction in the filtered data
 # Normalize direction values
-filtered_df_3h['hour_direction'] = filtered_df_3h['three_hour_direction'].str.strip().str.title()
+filtered_df_3h['three_hour_direction'] = filtered_df_3h['three_hour_direction'].str.strip().str.title()
 
 # Recalculate counts
 hour_direction_counts = filtered_df_3h['three_hour_direction'].value_counts().reset_index()
