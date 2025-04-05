@@ -61,7 +61,7 @@ if df_1h is not None:
     hour_options = ['All'] + list(range(0, 24))
     three_hour_options = ['All'] + [0, 3, 6, 9, 12, 15, 18, 21]
     selected_hour = st.sidebar.selectbox("Select Hour", hour_options)
-    selected_three_hour = st.sidebar.selectbox("Select 3H", three_hour_options)
+    selected_three_hour = st.sidebar.selectbox("Select 3H Start", three_hour_options)
     day_options = ['All'] + ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
     selected_day = st.sidebar.selectbox("Day of Week", day_options)
 
