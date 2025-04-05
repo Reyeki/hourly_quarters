@@ -187,7 +187,7 @@ st.caption(f"Sample size: {len(filtered_df_1h):,} rows")
 if df_3h is not None:
 
     # Centered line with four Q-direction dropdowns
-    st.markdown("### 3h Filters")
+    st.markdown("### 3H Filters")
     q_col1_3h, q_col2_3h, q_col3_3h, q_col4_3h, q_col5_3h, q_col6_3h = st.columns([1, 1, 1, 1, 1, 1])  # Extra column for centering
 
     q1_filter_3h = q_col1_3h.selectbox("Q1", options=["All"] + sorted(df_3h["Q1_direction"].dropna().unique().tolist()),
@@ -198,7 +198,7 @@ if df_3h is not None:
                                       key="q3_filter_3h")
     q4_filter_3h = q_col4_3h.selectbox("Q4", options=["All"] + sorted(df_3h["Q4_direction"].dropna().unique().tolist()),
                                       key="q4_filter_3h")
-    prev_hour_filter_3h = q_col5_3h.selectbox("Previous Three Hour Direction", options=["All"] + ["Long", "Short", "Neutral"],
+    prev_hour_filter_3h = q_col5_3h.selectbox("Previous 3H Direction", options=["All"] + ["Long", "Short", "Neutral"],
                                              key="prev_hour_filter_3h")
     orb_filter_3h = q_col6_3h.selectbox("ORB Direction", options=["All"] + ["Long", "Short"],
                                        key="orb_filter_3h")
@@ -208,7 +208,7 @@ if df_3h is not None:
     filtered_df_3h['prev_three_hour_direction'] = filtered_df_3h['three_hour_direction'].shift(1)
 
     # Optional: Apply hour filter (if it's not "All")
-    if selected_hour != 'All':
+    if selected_three_hour != 'All':
         # Assumes you have a column like 'Hour' as int. If not, adapt accordingly.
         filtered_df_3h = filtered_df_3h[filtered_df_3h['hour'] == selected_three_hour]
 
@@ -244,7 +244,7 @@ if df_3h is not None:
         low_counts,
         x="value",
         y="probability",
-        title="Low of Three Hour Bucket",
+        title="Low of 3H Bucket",
         labels={"value": "Low Bucket", "probability": "Probability"},
         # Format the probability as a percentage (e.g., "12.34%")
         text=low_counts["probability"].apply(lambda x: f"{x:.2%}")
@@ -263,7 +263,7 @@ if df_3h is not None:
         high_counts,
         x="value",
         y="probability",
-        title="High of Three Hour Bucket",
+        title="High of 3H Bucket",
         labels={"value": "High Bucket", "probability": "Probability"},
         text=high_counts["probability"].apply(lambda x: f"{x:.2%}")
     )
@@ -285,8 +285,8 @@ if df_3h is not None:
 filtered_df_3h['three_hour_direction'] = filtered_df_3h['three_hour_direction'].str.strip().str.title()
 
 # Recalculate counts
-hour_direction_counts = filtered_df_3h['three_hour_direction'].value_counts().reset_index()
-hour_direction_counts.columns = ['direction', 'count']
+three_hour_direction_counts = filtered_df_3h['three_hour_direction'].value_counts().reset_index()
+three_hour_direction_counts.columns = ['direction', 'count']
 
 direction_order = ["Long", "Short", "Neutral"]
 direction_colors = {
@@ -297,7 +297,7 @@ direction_colors = {
 
 # Create a pie chart using Plotly
 fig_pie = px.pie(
-    hour_direction_counts,
+    three_hour_direction_counts,
     names='direction',
     values='count',
     color='direction',  # ✅ This is the missing piece!
