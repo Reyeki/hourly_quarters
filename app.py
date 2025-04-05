@@ -96,12 +96,12 @@ if df_1h is not None:
     orb_filter = q_col6.radio("5m ORB Direction",
                               options=["All"] + sorted(df_1h["ORB_direction"].dropna().unique().tolist()),
                               horizontal=False)
-    low_filter = q_col7.radio("Potenial Low",
+    low_filter = q_col7.multiselect("Low Exclusion",
                               options=["All"] + sorted(df_1h["low_bucket"].dropna().unique().tolist()),
-                              horizontal=False)
-    high_filter = q_col8.radio("Potenial High",
+                              )
+    high_filter = q_col8.multiselect("High Exclusion",
                               options=["All"] + sorted(df_1h["high_bucket"].dropna().unique().tolist()),
-                              horizontal=False)
+                              )
 
     ###  Apply Filters
     filtered_df_1h = df_1h[df_1h['Instrument'] == selected_instrument]
@@ -130,10 +130,10 @@ if df_1h is not None:
         filtered_df_1h = filtered_df_1h[filtered_df_1h['prev_hour_direction'] == prev_hour_filter] 
     if orb_filter != 'All':
         filtered_df_1h = filtered_df_1h[filtered_df_1h['ORB_direction'] == orb_filter] 
-    if low_filter != 'All':
-        filtered_df_1h = filtered_df_1h[filtered_df_1h['low_bucket'] == low_filter]
-    if high_filter != 'All':
-        filtered_df_1h = filtered_df_1h[filtered_df_1h['high_bucket'] == high_filter] 
+    if low_filter and "All" not in low_filter:
+        filtered_df_1h = filtered_df_1h[~filtered_df_1h['low_bucket'].isin(low_filter)]
+    if high_filter and "All" not in high_filter:
+        filtered_df_1h = filtered_df_1h[~filtered_df_1h['high_bucket'].isin(high_filter)]
 
     # Calculate probability distributions for "low bucket" and "high bucket"
     low_counts = filtered_df_1h["low_bucket"].value_counts(normalize=True).reset_index()
