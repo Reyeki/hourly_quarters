@@ -266,7 +266,7 @@ if df_3h is not None:
         high_filter_3h = st.multiselect(
             "High Exclusion",
             options=sorted(df_3h["high_bucket"].dropna().unique().tolist()),
-            key='high_filter_3h"
+            key="high_filter_3h"
         )
 
 
