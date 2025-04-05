@@ -190,12 +190,18 @@ if df_3h is not None:
     st.markdown("### 3h Filters")
     q_col1_3h, q_col2_3h, q_col3_3h, q_col4_3h, q_col5_3h, q_col6_3h = st.columns([1, 1, 1, 1, 1, 1])  # Extra column for centering
 
-    q1_filter_3h = q_col1_3h.selectbox("Q1", options=["All"] + sorted(df_3h["Q1_direction"].dropna().unique().tolist()))
-    q2_filter_3h = q_col2_3h.selectbox("Q2", options=["All"] + sorted(df_3h["Q2_direction"].dropna().unique().tolist()))
-    q3_filter_3h = q_col3_3h.selectbox("Q3", options=["All"] + sorted(df_3h["Q3_direction"].dropna().unique().tolist()))
-    q4_filter_3h = q_col4_3h.selectbox("Q4", options=["All"] + sorted(df_3h["Q4_direction"].dropna().unique().tolist()))
-    prev_hour_filter_3h = q_col5_3h.selectbox("Previous Hour Direction", options=["All"] + ["Long", "Short", "Neutral"])
-    orb_filter_3h = q_col6_3h.selectbox("ORB Direction", options=["All"] + ["Long", "Short"])
+    q1_filter_3h = q_col1_3h.selectbox("Q1", options=["All"] + sorted(df_3h["Q1_direction"].dropna().unique().tolist()),
+                                      key="q1_filter_3h")
+    q2_filter_3h = q_col2_3h.selectbox("Q2", options=["All"] + sorted(df_3h["Q2_direction"].dropna().unique().tolist()),
+                                      key="q2_filter_3h")
+    q3_filter_3h = q_col3_3h.selectbox("Q3", options=["All"] + sorted(df_3h["Q3_direction"].dropna().unique().tolist()),
+                                      key="q3_filter_3h")
+    q4_filter_3h = q_col4_3h.selectbox("Q4", options=["All"] + sorted(df_3h["Q4_direction"].dropna().unique().tolist()),
+                                      key="q4_filter_3h")
+    prev_hour_filter_3h = q_col5_3h.selectbox("Previous Hour Direction", options=["All"] + ["Long", "Short", "Neutral"],
+                                             key="prev_hour_filter_3h")
+    orb_filter_3h = q_col6_3h.selectbox("ORB Direction", options=["All"] + ["Long", "Short"],
+                                       key="orb_filter_3h")
 
     ###  Apply Filters
     filtered_df_3h = df_3h[df_3h['Instrument'] == selected_instrument]
