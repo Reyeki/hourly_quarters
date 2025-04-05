@@ -53,18 +53,20 @@ url_3h = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/h
 df_1h = pd.read_csv(url_1h)
 df_3h = pd.read_csv(url_3h)
 
-if df is not None:
+if df_1h is not None:
 
     ### **Sidebar: Select Instrument and DR Range**
     instrument_options = df_1h['Instrument'].dropna().unique().tolist()
     selected_instrument = st.sidebar.selectbox("Select Instrument", instrument_options)
     hour_options = ['All'] + list(range(0, 24))
+    three_hour_options = ['All'] + ["0", "3", "6", "9", "12", "15", "18", "21"]
     selected_hour = st.sidebar.selectbox("Select Hour", hour_options)
+    selected_three_hour = st.sidebar.selectbox("Select 3H", three_hour_options)
     day_options = ['All'] + ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
     selected_day = st.sidebar.selectbox("Day of Week", day_options)
 
     # Centered line with four Q-direction dropdowns
-    st.markdown("### Filters")
+    st.markdown("### Hour Filters")
     q_col1, q_col2, q_col3, q_col4, q_col5, q_col6 = st.columns([1, 1, 1, 1, 1, 1])  # Extra column for centering
 
     q1_filter = q_col1.selectbox("Q1", options=["All"] + sorted(df_1h["Q1_direction"].dropna().unique().tolist()))
@@ -181,3 +183,124 @@ fig_pie = px.pie(
 # Display the pie chart full-width
 st.plotly_chart(fig_pie, use_container_width=True)
 st.caption(f"Sample size: {len(filtered_df_1h):,} rows")
+
+if df_3h is not None:
+
+    # Centered line with four Q-direction dropdowns
+    st.markdown("### 3h Filters")
+    q_col1, q_col2, q_col3, q_col4, q_col5, q_col6 = st.columns([1, 1, 1, 1, 1, 1])  # Extra column for centering
+
+    q1_filter = q_col1.selectbox("Q1", options=["All"] + sorted(df_3h["Q1_direction"].dropna().unique().tolist()))
+    q2_filter = q_col2.selectbox("Q2", options=["All"] + sorted(df_3h["Q2_direction"].dropna().unique().tolist()))
+    q3_filter = q_col3.selectbox("Q3", options=["All"] + sorted(df_3h["Q3_direction"].dropna().unique().tolist()))
+    q4_filter = q_col4.selectbox("Q4", options=["All"] + sorted(df_3h["Q4_direction"].dropna().unique().tolist()))
+    prev_hour_filter = q_col5.selectbox("Previous Hour Direction", options=["All"] + ["Long", "Short", "Neutral"])
+    orb_filter = q_col6.selectbox("ORB Direction", options=["All"] + ["Long", "Short"])
+
+    ###  Apply Filters
+    filtered_df_3h = df_3h[df_3h['Instrument'] == selected_instrument]
+    filtered_df_3h['prev_hour_direction'] = filtered_df_3h['hour_direction'].shift(1)
+
+    # Optional: Apply hour filter (if it's not "All")
+    if selected_hour != 'All':
+        # Assumes you have a column like 'Hour' as int. If not, adapt accordingly.
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['hour'] == selected_three_hour]
+
+    # Optional: Apply day filter (if it's not "All")
+    if selected_day != 'All':
+        # Assumes you have a column like 'Day' with string values like 'Monday'
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['day_of_week'] == selected_day]
+
+    # Filter by Q directions
+    if q1_filter != "All":
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['Q1_direction'] == q1_filter]
+    if q2_filter != "All":
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['Q2_direction'] == q2_filter]
+    if q3_filter != "All":
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['Q3_direction'] == q3_filter]
+    if q4_filter != "All":
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['Q4_direction'] == q4_filter]
+    if prev_hour_filter != 'All':
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['prev_hour_direction'] == prev_hour_filter] 
+    if orb_filter != 'All':
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['ORB_direction'] == orb_filter] 
+
+    # Calculate probability distributions for "low bucket" and "high bucket"
+    low_counts = filtered_df_3h["low_bucket"].value_counts(normalize=True).reset_index()
+    low_counts.columns = ["value", "probability"]
+
+    high_counts = filtered_df_3h["high_bucket"].value_counts(normalize=True).reset_index()
+    high_counts.columns = ["value", "probability"]
+
+    # Create a bar chart for "low bucket" probabilities with text annotations
+    desired_order = ["Q1", "Q2", "Q3", "Q4"]
+    fig_low = px.bar(
+        low_counts,
+        x="value",
+        y="probability",
+        title="Low of Hour Bucket",
+        labels={"value": "Low Bucket", "probability": "Probability"},
+        # Format the probability as a percentage (e.g., "12.34%")
+        text=low_counts["probability"].apply(lambda x: f"{x:.2%}")
+    )
+    # Position the text annotations outside the bars
+    fig_low.update_traces(textposition="outside")
+    fig_low.update_layout(
+    xaxis=dict(
+        categoryorder='array',
+        categoryarray=desired_order
+    )
+)
+
+    # Create a bar chart for "high bucket" probabilities with text annotations
+    fig_high = px.bar(
+        high_counts,
+        x="value",
+        y="probability",
+        title="High of Hour Bucket",
+        labels={"value": "High Bucket", "probability": "Probability"},
+        text=high_counts["probability"].apply(lambda x: f"{x:.2%}")
+    )
+    fig_high.update_traces(textposition="outside")
+    fig_high.update_layout(
+    xaxis=dict(
+        categoryorder='array',
+        categoryarray=desired_order
+    )
+)
+
+    # Display the two charts side by side using st.columns
+    col1, col2 = st.columns(2)
+    col1.plotly_chart(fig_low, use_container_width=True)
+    col2.plotly_chart(fig_high, use_container_width=True)
+
+# Calculate distribution of hour_direction in the filtered data
+# Normalize direction values
+filtered_df_1h['hour_direction'] = filtered_df_1h['three_hour_direction'].str.strip().str.title()
+
+# Recalculate counts
+hour_direction_counts = filtered_df_1h['three_hour_direction'].value_counts().reset_index()
+hour_direction_counts.columns = ['direction', 'count']
+
+direction_order = ["Long", "Short", "Neutral"]
+direction_colors = {
+    "Long": "#2ecc71",       # Green
+    "Short": "#e74c3c",     # Red
+    "Neutral": "#5d6d7e"   # Gray
+}
+
+# Create a pie chart using Plotly
+fig_pie = px.pie(
+    hour_direction_counts,
+    names='direction',
+    values='count',
+    color='direction',  # ✅ This is the missing piece!
+    title='Hour Direction Distribution',
+    hole=0.3,  # Optional: Makes it a donut chart. Remove if you want a solid pie.
+    category_orders={'direction': direction_order},
+    color_discrete_map=direction_colors
+)
+
+# Display the pie chart full-width
+st.plotly_chart(fig_pie, use_container_width=True)
+st.caption(f"Sample size: {len(filtered_df_3h):,} rows")
