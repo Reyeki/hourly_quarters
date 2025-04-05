@@ -213,17 +213,17 @@ if df_3h is not None:
         horizontal=False
     )
     q2_filter_3h = q_col2_3h.radio(
-        "Q1",
+        "Q2",
         options=["All"] + sorted(df_3h["Q2_direction"].dropna().unique().tolist()),
         horizontal=False
     )
     q3_filter_3h = q_col3_3h.radio(
-        "Q1",
+        "Q3",
         options=["All"] + sorted(df_3h["Q3_direction"].dropna().unique().tolist()),
         horizontal=False
     )
     q4_filter_3h = q_col4_3h.radio(
-        "Q1",
+        "Q4",
         options=["All"] + sorted(df_3h["Q4_direction"].dropna().unique().tolist()),
         horizontal=False
     )
