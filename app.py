@@ -298,9 +298,9 @@ if df_3h is not None:
     if orb_filter_3h != 'All':
         filtered_df_3h = filtered_df_3h[filtered_df_3h['ORB_direction'] == orb_filter_3h] 
     if low_filter_3h:
-        filtered_df_3h = filtered_df_3h[~filtered_df_3h['low_bucket'].isin(low_filter)]
+        filtered_df_3h = filtered_df_3h[~filtered_df_3h['low_bucket'].isin(low_filter_3h)]
     if high_filter_3h:
-        filtered_df_3h = filtered_df_3h[~filtered_df_3h['high_bucket'].isin(high_filter)]
+        filtered_df_3h = filtered_df_3h[~filtered_df_3h['high_bucket'].isin(high_filter_3h)]
 
     # Calculate probability distributions for "low bucket" and "high bucket"
     low_counts = filtered_df_3h["low_bucket"].value_counts(normalize=True).reset_index()
