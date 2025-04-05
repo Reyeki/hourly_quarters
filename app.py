@@ -90,7 +90,7 @@ if df_1h is not None:
         horizontal=False
     )
     
-    prev_hour_filter = q_col5.radio("Previous Hour Direction", 
+    prev_hour_filter = q_col5.radio("Prev. Hour Direction", 
                                     options=["All"] + ["Long", "Short", "Neutral"],
                                     horizontal=False)
     orb_filter = q_col6.radio("5m ORB Direction",
@@ -249,7 +249,7 @@ if df_3h is not None:
         key="q4_filter_3h"
     )
     
-    prev_hour_filter_3h = q_col5_3h.radio("Previous 3H Direction",
+    prev_hour_filter_3h = q_col5_3h.radio("Prev. 3H Direction",
                                           options=["All"] + ["Long", "Short", "Neutral"],
                                           horizontal=False,
                                           key="prev_hour_filter_3h")
