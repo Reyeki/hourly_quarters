@@ -276,10 +276,10 @@ if df_3h is not None:
 
 # Calculate distribution of hour_direction in the filtered data
 # Normalize direction values
-filtered_df_1h['hour_direction'] = filtered_df_1h['three_hour_direction'].str.strip().str.title()
+filtered_df_3h['hour_direction'] = filtered_df_3h['three_hour_direction'].str.strip().str.title()
 
 # Recalculate counts
-hour_direction_counts = filtered_df_1h['three_hour_direction'].value_counts().reset_index()
+hour_direction_counts = filtered_df_3h['three_hour_direction'].value_counts().reset_index()
 hour_direction_counts.columns = ['direction', 'count']
 
 direction_order = ["Long", "Short", "Neutral"]
