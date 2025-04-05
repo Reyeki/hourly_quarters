@@ -188,14 +188,14 @@ if df_3h is not None:
 
     # Centered line with four Q-direction dropdowns
     st.markdown("### 3h Filters")
-    q_col1, q_col2, q_col3, q_col4, q_col5, q_col6 = st.columns([1, 1, 1, 1, 1, 1])  # Extra column for centering
+    q_col1_3h, q_col2_3h, q_col3_3h, q_col4_3h, q_col5_3h, q_col6_3h = st.columns([1, 1, 1, 1, 1, 1])  # Extra column for centering
 
-    q1_filter = q_col1.selectbox("Q1", options=["All"] + sorted(df_3h["Q1_direction"].dropna().unique().tolist()))
-    q2_filter = q_col2.selectbox("Q2", options=["All"] + sorted(df_3h["Q2_direction"].dropna().unique().tolist()))
-    q3_filter = q_col3.selectbox("Q3", options=["All"] + sorted(df_3h["Q3_direction"].dropna().unique().tolist()))
-    q4_filter = q_col4.selectbox("Q4", options=["All"] + sorted(df_3h["Q4_direction"].dropna().unique().tolist()))
-    prev_hour_filter = q_col5.selectbox("Previous Hour Direction", options=["All"] + ["Long", "Short", "Neutral"])
-    orb_filter = q_col6.selectbox("ORB Direction", options=["All"] + ["Long", "Short"])
+    q1_filter_3h = q_col1_3h.selectbox("Q1", options=["All"] + sorted(df_3h["Q1_direction"].dropna().unique().tolist()))
+    q2_filter_3h = q_col2_3h.selectbox("Q2", options=["All"] + sorted(df_3h["Q2_direction"].dropna().unique().tolist()))
+    q3_filter_3h = q_col3_3h.selectbox("Q3", options=["All"] + sorted(df_3h["Q3_direction"].dropna().unique().tolist()))
+    q4_filter_3h = q_col4_3h.selectbox("Q4", options=["All"] + sorted(df_3h["Q4_direction"].dropna().unique().tolist()))
+    prev_hour_filter_3h = q_col5_3h.selectbox("Previous Hour Direction", options=["All"] + ["Long", "Short", "Neutral"])
+    orb_filter_3h = q_col6_3h.selectbox("ORB Direction", options=["All"] + ["Long", "Short"])
 
     ###  Apply Filters
     filtered_df_3h = df_3h[df_3h['Instrument'] == selected_instrument]
@@ -213,17 +213,17 @@ if df_3h is not None:
 
     # Filter by Q directions
     if q1_filter != "All":
-        filtered_df_3h = filtered_df_3h[filtered_df_3h['Q1_direction'] == q1_filter]
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['Q1_direction'] == q1_filter_3h]
     if q2_filter != "All":
-        filtered_df_3h = filtered_df_3h[filtered_df_3h['Q2_direction'] == q2_filter]
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['Q2_direction'] == q2_filter_3h]
     if q3_filter != "All":
-        filtered_df_3h = filtered_df_3h[filtered_df_3h['Q3_direction'] == q3_filter]
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['Q3_direction'] == q3_filter_3h]
     if q4_filter != "All":
-        filtered_df_3h = filtered_df_3h[filtered_df_3h['Q4_direction'] == q4_filter]
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['Q4_direction'] == q4_filter_3h]
     if prev_hour_filter != 'All':
-        filtered_df_3h = filtered_df_3h[filtered_df_3h['prev_hour_direction'] == prev_hour_filter] 
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['prev_hour_direction'] == prev_hour_filter_3h] 
     if orb_filter != 'All':
-        filtered_df_3h = filtered_df_3h[filtered_df_3h['ORB_direction'] == orb_filter] 
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['ORB_direction'] == orb_filter_3h] 
 
     # Calculate probability distributions for "low bucket" and "high bucket"
     low_counts = filtered_df_3h["low_bucket"].value_counts(normalize=True).reset_index()
@@ -238,7 +238,7 @@ if df_3h is not None:
         low_counts,
         x="value",
         y="probability",
-        title="Low of Hour Bucket",
+        title="Low of Three Hour Bucket",
         labels={"value": "Low Bucket", "probability": "Probability"},
         # Format the probability as a percentage (e.g., "12.34%")
         text=low_counts["probability"].apply(lambda x: f"{x:.2%}")
@@ -257,7 +257,7 @@ if df_3h is not None:
         high_counts,
         x="value",
         y="probability",
-        title="High of Hour Bucket",
+        title="High of Three Hour Bucket",
         labels={"value": "High Bucket", "probability": "Probability"},
         text=high_counts["probability"].apply(lambda x: f"{x:.2%}")
     )
