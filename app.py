@@ -69,22 +69,22 @@ if df_1h is not None:
     st.markdown("### Hour Filters")
     q_col1, q_col2, q_col3, q_col4, q_col5, q_col6 = st.columns([1, 1, 1, 1, 1, 1])  # Extra column for centering
 
-    q1_filter = st.radio(
+    q1_filter = q_col1.radio(
         "Q1",
         options=["All", "Long", "Short", "Neutral"],
         horizontal=False
     )
-    q2_filter = st.radio(
+    q2_filter = q_col2.radio(
         "Q2",
         options=["All", "Long", "Short", "Neutral"],
         horizontal=False
     )
-    q3_filter = st.radio(
+    q3_filter = q_col3.radio(
         "Q3",
         options=["All", "Long", "Short", "Neutral"],
         horizontal=False
     )
-    q4_filter = st.radio(
+    q4_filter = q_col4.radio(
         "Q4",
         options=["All", "Long", "Short", "Neutral"],
         horizontal=False
