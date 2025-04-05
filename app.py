@@ -74,7 +74,7 @@ if df_1h is not None:
     q3_filter = q_col3.selectbox("Q3", options=["All"] + sorted(df_1h["Q3_direction"].dropna().unique().tolist()))
     q4_filter = q_col4.selectbox("Q4", options=["All"] + sorted(df_1h["Q4_direction"].dropna().unique().tolist()))
     prev_hour_filter = q_col5.selectbox("Previous Hour Direction", options=["All"] + ["Long", "Short", "Neutral"])
-    orb_filter = q_col6.selectbox("ORB Direction", options=["All"] + ["Long", "Short"])
+    orb_filter = q_col6.selectbox("5m ORB Direction", options=["All"] + ["Long", "Short"])
 
     ###  Apply Filters
     filtered_df_1h = df_1h[df_1h['Instrument'] == selected_instrument]
@@ -200,7 +200,7 @@ if df_3h is not None:
                                       key="q4_filter_3h")
     prev_hour_filter_3h = q_col5_3h.selectbox("Previous 3H Direction", options=["All"] + ["Long", "Short", "Neutral"],
                                              key="prev_hour_filter_3h")
-    orb_filter_3h = q_col6_3h.selectbox("ORB Direction", options=["All"] + ["Long", "Short"],
+    orb_filter_3h = q_col6_3h.selectbox("15m ORB Direction", options=["All"] + ["Long", "Short"],
                                        key="orb_filter_3h")
 
     ###  Apply Filters
