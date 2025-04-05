@@ -210,22 +210,26 @@ if df_3h is not None:
     q1_filter_3h = q_col1_3h.radio(
         "Q1",
         options=["All"] + sorted(df_3h["Q1_direction"].dropna().unique().tolist()),
-        horizontal=False
+        horizontal=False,
+        key="q1_filter_3h"
     )
     q2_filter_3h = q_col2_3h.radio(
         "Q2",
         options=["All"] + sorted(df_3h["Q2_direction"].dropna().unique().tolist()),
-        horizontal=False
+        horizontal=False,
+        key="q2_filter_3h"
     )
     q3_filter_3h = q_col3_3h.radio(
         "Q3",
         options=["All"] + sorted(df_3h["Q3_direction"].dropna().unique().tolist()),
-        horizontal=False
+        horizontal=False,
+        key="q3_filter_3h"
     )
     q4_filter_3h = q_col4_3h.radio(
         "Q4",
         options=["All"] + sorted(df_3h["Q4_direction"].dropna().unique().tolist()),
-        horizontal=False
+        horizontal=False,
+        key="q4_filter_3h"
     )
     
     prev_hour_filter_3h = q_col5_3h.selectbox("Previous 3H Direction", options=["All"] + ["Long", "Short", "Neutral"],
