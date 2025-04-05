@@ -71,30 +71,25 @@ if df_1h is not None:
 
     q1_filter = q_col1.radio(
         "Q1",
-        options=["All", "Long", "Short", "Neutral"],
+        options=["All"] + sorted(df_1h["Q1_direction"].dropna().unique().tolist()),
         horizontal=False
     )
     q2_filter = q_col2.radio(
         "Q2",
-        options=["All", "Long", "Short", "Neutral"],
+        options=["All"] + sorted(df_1h["Q2_direction"].dropna().unique().tolist()),
         horizontal=False
     )
     q3_filter = q_col3.radio(
         "Q3",
-        options=["All", "Long", "Short", "Neutral"],
+        options=["All"] + sorted(df_1h["Q3_direction"].dropna().unique().tolist()),
         horizontal=False
     )
     q4_filter = q_col4.radio(
         "Q4",
-        options=["All", "Long", "Short", "Neutral"],
+        options=["All"] + sorted(df_1h["Q4_direction"].dropna().unique().tolist()),
         horizontal=False
     )
     
-    
-    #q1_filter = q_col1.selectbox("Q1", options=["All"] + sorted(df_1h["Q1_direction"].dropna().unique().tolist()))
-    #q2_filter = q_col2.selectbox("Q2", options=["All"] + sorted(df_1h["Q2_direction"].dropna().unique().tolist()))
-    #q3_filter = q_col3.selectbox("Q3", options=["All"] + sorted(df_1h["Q3_direction"].dropna().unique().tolist()))
-    #q4_filter = q_col4.selectbox("Q4", options=["All"] + sorted(df_1h["Q4_direction"].dropna().unique().tolist()))
     prev_hour_filter = q_col5.selectbox("Previous Hour Direction", options=["All"] + ["Long", "Short", "Neutral"])
     orb_filter = q_col6.selectbox("5m ORB Direction", options=["All"] + ["Long", "Short"])
 
