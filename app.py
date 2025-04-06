@@ -52,8 +52,8 @@ url_1h = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/h
 url_3h = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/Merged_3H_Quartal_1min_Processed_from_2016.csv"
 df_1h = pd.read_csv(url_1h)
 df_3h = pd.read_csv(url_3h)
-df_1h = hourly.drop(columns=['Unnamed: 0', 'Unnamed: 0.1'])
-df_3h = hourly.drop(columns=['Unnamed: 0', 'Unnamed: 0.1'])
+#df_1h = hourly.drop(columns=['Unnamed: 0', 'Unnamed: 0.1'])
+#df_3h = hourly.drop(columns=['Unnamed: 0', 'Unnamed: 0.1'])
 
 df_1h["three_hour_start"] = (df_1h["hour"] // 3) * 3
 
