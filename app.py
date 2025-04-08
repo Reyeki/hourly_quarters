@@ -395,18 +395,30 @@ direction_colors = {
     "Neutral": "#5d6d7e"   # Gray
 }
 
-# Create a pie chart using Plotly
-fig_pie = px.pie(
-    three_hour_direction_counts,
-    names='direction',
-    values='count',
-    color='direction',  # ✅ This is the missing piece!
-    title='3H Direction Distribution',
-    hole=0.3,  # Optional: Makes it a donut chart. Remove if you want a solid pie.
-    category_orders={'direction': direction_order},
-    color_discrete_map=direction_colors
-)
+quartals = ["Q1_direction", "Q2_direction", "Q3_direction", "Q4_direction", "three_hour_direction"]
+quartal_titles = ["Q1 Direction", "Q2 Direction", "Q3 Direction", "Q4 Direction", "Hour Direction"]
 
-# Display the pie chart full-width
-st.plotly_chart(fig_pie, use_container_width=True)
+q_cols = st.columns(5)
+
+for i, q_col in enumerate(quartals):
+    # Normalize and count values
+    filtered_df_3h[q_col] = filtered_df_3h[q_col].str.strip().str.title()
+    q_counts = filtered_df_3h[q_col].value_counts().reset_index()
+    q_counts.columns = ['direction', 'count']
+
+    # Build pie chart
+    fig_q = px.pie(
+        q_counts,
+        names='direction',
+        values='count',
+        color='direction',
+        title=quartal_titles[i],
+        hole=0.3,
+        category_orders={'direction': direction_order},
+        color_discrete_map=direction_colors
+    )
+    fig_q.update_traces(textinfo='percent+label')
+    q_cols[i].plotly_chart(fig_q, use_container_width=True)
+
+st.caption(f"Sample size: {len(filtered_df_1h):,} rows")
 st.caption(f"Sample size: {len(filtered_df_3h):,} rows")
