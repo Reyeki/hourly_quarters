@@ -217,22 +217,8 @@ direction_colors = {
     "Neutral": "#5d6d7e"   # Gray
 }
 
-# Create a pie chart using Plotly
-fig_pie = px.pie(
-    hour_direction_counts,
-    names='direction',
-    values='count',
-    color='direction',  # ✅ This is the missing piece!
-    title='Hour Direction Distribution',
-    hole=0.3,  # Optional: Makes it a donut chart. Remove if you want a solid pie.
-    category_orders={'direction': direction_order},
-    color_discrete_map=direction_colors
-)
 
-# Display the pie chart full-width
-st.plotly_chart(fig_pie, use_container_width=True)
-
-st.markdown("### Quartal Direction Breakdown")
+st.markdown("### Quarter and Hourly Direction")
 
 quartals = ["Q1_direction", "Q2_direction", "Q3_direction", "Q4_direction", "hour_direction"]
 quartal_titles = ["Q1 Direction", "Q2 Direction", "Q3 Direction", "Q4 Direction", "Hour Direction"]
