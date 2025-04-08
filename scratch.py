@@ -836,11 +836,6 @@ for i, q_col in enumerate(quartals):
     q_cols[i].plotly_chart(fig_q, use_container_width=True)
 
 st.caption(f"Sample size: {len(filtered_df_3h):,} rows")
-ChatGPT said:
-Reasoned about combined data visualization adjustments for 1m 15s
-Below is one way to accomplish your goal. The idea is to create a new “combined” section that reuses many of the same filters but now applies them to the merged dataframe. In this example, we assume that because you merged on common keys the merged dataframe contains hourly columns with a suffix (for example, _hourly) and three‑hourly columns with a suffix (for example, _3h). You can then filter on both sets of fields and produce charts for each side—mirroring the two separate rows you already have.
-
-Below is an annotated code snippet that shows one approach. (You’ll likely need to adjust the column names or add error checking based on your actual dataset.)
 
 if merged_tf is not None:
     st.markdown("### Combined Data (Hourly and 3H Filters Applied)")
