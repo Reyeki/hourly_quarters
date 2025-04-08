@@ -420,5 +420,4 @@ for i, q_col in enumerate(quartals):
     fig_q.update_traces(textinfo='percent+label')
     q_cols[i].plotly_chart(fig_q, use_container_width=True)
 
-st.caption(f"Sample size: {len(filtered_df_1h):,} rows")
 st.caption(f"Sample size: {len(filtered_df_3h):,} rows")
