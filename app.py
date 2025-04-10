@@ -111,6 +111,7 @@ if df_1h is not None:
     orb_filter = q_col6.radio("5m ORB Direction",
                               options=["All"] + sorted(df_1h["ORB_direction"].dropna().unique().tolist()),
                               horizontal=False)
+    
     with q_col7:
         low_filter = st.multiselect(
             "Low Exclusion",
@@ -152,6 +153,9 @@ if df_1h is not None:
         filtered_df_1h = filtered_df_1h[~filtered_df_1h['low_bucket'].isin(low_filter)]
     if high_filter:
         filtered_df_1h = filtered_df_1h[~filtered_df_1h['high_bucket'].isin(high_filter)]
+
+
+    st.caption(f"ORB True Rate: {filtered_df_1h['ORB_valid'].value_counts(normalize=True)[True]} rows")
 
     # Calculate probability distributions for "low bucket" and "high bucket"
     low_counts = filtered_df_1h["low_bucket"].value_counts(normalize=True).reset_index()
