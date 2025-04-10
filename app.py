@@ -154,8 +154,11 @@ if df_1h is not None:
     if high_filter:
         filtered_df_1h = filtered_df_1h[~filtered_df_1h['high_bucket'].isin(high_filter)]
 
-
-    st.caption(f"ORB True Rate: {filtered_df_1h['ORB_valid'].value_counts(normalize=True)[True]} rows")
+        # ORB Validity Rate
+    if 'ORB_valid' in filtered_df_1h.columns and not filtered_df_1h.empty:
+        orb_counts = filtered_df_1h['ORB_valid'].value_counts(normalize=True)
+        true_rate = orb_counts.get(True, 0)  # Default to 0 if True isn't present
+        st.metric(label="ORB Validity Rate", value=f"{true_rate:.2%}")
 
     # Calculate probability distributions for "low bucket" and "high bucket"
     low_counts = filtered_df_1h["low_bucket"].value_counts(normalize=True).reset_index()
@@ -206,50 +209,50 @@ if df_1h is not None:
     col1.plotly_chart(fig_low, use_container_width=True)
     col2.plotly_chart(fig_high, use_container_width=True)
 
-# Calculate distribution of hour_direction in the filtered data
-# Normalize direction values
-filtered_df_1h['hour_direction'] = filtered_df_1h['hour_direction'].str.strip().str.title()
-
-# Recalculate counts
-hour_direction_counts = filtered_df_1h['hour_direction'].value_counts().reset_index()
-hour_direction_counts.columns = ['direction', 'count']
-
-direction_order = ["Long", "Short", "Neutral"]
-direction_colors = {
-    "Long": "#2ecc71",       # Green
-    "Short": "#e74c3c",     # Red
-    "Neutral": "#5d6d7e"   # Gray
-}
-
-
-st.markdown("### Quarter and Hourly Direction")
-
-quartals = ["Q1_direction", "Q2_direction", "Q3_direction", "Q4_direction", "hour_direction"]
-quartal_titles = ["Q1 Direction", "Q2 Direction", "Q3 Direction", "Q4 Direction", "Hour Direction"]
-
-q_cols = st.columns(5)
-
-for i, q_col in enumerate(quartals):
-    # Normalize and count values
-    filtered_df_1h[q_col] = filtered_df_1h[q_col].str.strip().str.title()
-    q_counts = filtered_df_1h[q_col].value_counts().reset_index()
-    q_counts.columns = ['direction', 'count']
-
-    # Build pie chart
-    fig_q = px.pie(
-        q_counts,
-        names='direction',
-        values='count',
-        color='direction',
-        title=quartal_titles[i],
-        hole=0.3,
-        category_orders={'direction': direction_order},
-        color_discrete_map=direction_colors
-    )
-    fig_q.update_traces(textinfo='percent+label')
-    q_cols[i].plotly_chart(fig_q, use_container_width=True)
-
-st.caption(f"Sample size: {len(filtered_df_1h):,} rows")
+    # Calculate distribution of hour_direction in the filtered data
+    # Normalize direction values
+    filtered_df_1h['hour_direction'] = filtered_df_1h['hour_direction'].str.strip().str.title()
+    
+    # Recalculate counts
+    hour_direction_counts = filtered_df_1h['hour_direction'].value_counts().reset_index()
+    hour_direction_counts.columns = ['direction', 'count']
+    
+    direction_order = ["Long", "Short", "Neutral"]
+    direction_colors = {
+        "Long": "#2ecc71",       # Green
+        "Short": "#e74c3c",     # Red
+        "Neutral": "#5d6d7e"   # Gray
+    }
+    
+    
+    st.markdown("### Quarter and Hourly Direction")
+    
+    quartals = ["Q1_direction", "Q2_direction", "Q3_direction", "Q4_direction", "hour_direction"]
+    quartal_titles = ["Q1 Direction", "Q2 Direction", "Q3 Direction", "Q4 Direction", "Hour Direction"]
+    
+    q_cols = st.columns(5)
+    
+    for i, q_col in enumerate(quartals):
+        # Normalize and count values
+        filtered_df_1h[q_col] = filtered_df_1h[q_col].str.strip().str.title()
+        q_counts = filtered_df_1h[q_col].value_counts().reset_index()
+        q_counts.columns = ['direction', 'count']
+    
+        # Build pie chart
+        fig_q = px.pie(
+            q_counts,
+            names='direction',
+            values='count',
+            color='direction',
+            title=quartal_titles[i],
+            hole=0.3,
+            category_orders={'direction': direction_order},
+            color_discrete_map=direction_colors
+        )
+        fig_q.update_traces(textinfo='percent+label')
+        q_cols[i].plotly_chart(fig_q, use_container_width=True)
+    
+    st.caption(f"Sample size: {len(filtered_df_1h):,} rows")
 
 if df_3h is not None:
 
