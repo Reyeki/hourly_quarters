@@ -154,7 +154,7 @@ if df_1h is not None:
     if orb_filter != 'All':
         filtered_df_1h = filtered_df_1h[filtered_df_1h['ORB_direction'] == orb_filter] 
     if orb_true_filter != 'All':
-        filtered_df_1h = filtered_df_1h[filtered_df_1h['ORB_valid'] == orb_filter] 
+        filtered_df_1h = filtered_df_1h[filtered_df_1h['ORB_valid'] == orb_true_filter] 
     if low_filter:
         filtered_df_1h = filtered_df_1h[~filtered_df_1h['low_bucket'].isin(low_filter)]
     if high_filter:
