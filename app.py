@@ -343,7 +343,7 @@ if df_3h is not None:
         filtered_df_3h = filtered_df_3h[filtered_df_3h['prev_three_hour_direction'] == prev_hour_filter_3h] 
     if orb_filter_3h != 'All':
         filtered_df_3h = filtered_df_3h[filtered_df_3h['ORB_direction'] == orb_filter_3h] 
-        if orb_true_filter_3h != 'All':
+    if orb_true_filter_3h != 'All':
         filtered_df_3h = filtered_df_3h[filtered_df_3h['ORB_valid'] == orb_true_filter_3h] 
     if low_filter_3h:
         filtered_df_3h = filtered_df_3h[~filtered_df_3h['low_bucket'].isin(low_filter_3h)]
