@@ -264,7 +264,7 @@ if df_3h is not None:
 
     # Centered line with four Q-direction dropdowns
     st.markdown("### 3H Filters")
-    q_col1_3h, q_col2_3h, q_col3_3h, q_col4_3h, q_col5_3h, q_col6_3h, q_col7_3h = st.columns([1, 1, 1, 1, 1, 1, 1.5])  # Extra column for centering
+    q_col1_3h, q_col2_3h, q_col3_3h, q_col4_3h, q_col5_3h, q_col6_3h, q_col7_3h, q_col8_3h = st.columns([1, 1, 1, 1, 1, 1, 1, 1.5])  # Extra column for centering
 
     q1_filter_3h = q_col1_3h.radio(
         "Q1",
@@ -299,7 +299,11 @@ if df_3h is not None:
                                     options=["All"] +sorted(df_3h["ORB_direction"].dropna().unique().tolist()),
                                     horizontal=False,
                                     key="orb_filter_3h")
-    with q_col7_3h:
+    orb_true_filter_3h = q_col6_3h.radio("15m ORB Direction",
+                                    options=["All"] +sorted(df_3h["ORB_valid"].dropna().unique().tolist()),
+                                    horizontal=False,
+                                    key="orb_true_3h")
+    with q_col8_3h:
         low_filter_3h = st.multiselect(
             "Low Exclusion",
             options=sorted(df_3h["low_bucket"].dropna().unique().tolist()),
@@ -339,10 +343,18 @@ if df_3h is not None:
         filtered_df_3h = filtered_df_3h[filtered_df_3h['prev_three_hour_direction'] == prev_hour_filter_3h] 
     if orb_filter_3h != 'All':
         filtered_df_3h = filtered_df_3h[filtered_df_3h['ORB_direction'] == orb_filter_3h] 
+        if orb_true_filter_3h != 'All':
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['ORB_valid'] == orb_true_filter_3h] 
     if low_filter_3h:
         filtered_df_3h = filtered_df_3h[~filtered_df_3h['low_bucket'].isin(low_filter_3h)]
     if high_filter_3h:
         filtered_df_3h = filtered_df_3h[~filtered_df_3h['high_bucket'].isin(high_filter_3h)]
+
+    # ORB Validity Rate
+    if 'ORB_valid' in filtered_df_3h.columns and not filtered_df_3h.empty:
+        orb_counts = filtered_df_3h['ORB_valid'].value_counts(normalize=True)
+        true_rate = orb_counts.get(True, 0)  # Default to 0 if True isn't present
+        st.metric(label="ORB True Rate (1m Body Close)", value=f"{true_rate:.2%}")
 
     # Calculate probability distributions for "low bucket" and "high bucket"
     low_counts = filtered_df_3h["low_bucket"].value_counts(normalize=True).reset_index()
