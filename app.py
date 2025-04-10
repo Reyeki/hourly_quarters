@@ -299,7 +299,7 @@ if df_3h is not None:
                                     options=["All"] +sorted(df_3h["ORB_direction"].dropna().unique().tolist()),
                                     horizontal=False,
                                     key="orb_filter_3h")
-    orb_true_filter_3h = q_col7_3h.radio("15m ORB Direction",
+    orb_true_filter_3h = q_col7_3h.radio("15m ORB True/False",
                                     options=["All"] +sorted(df_3h["ORB_valid"].dropna().unique().tolist()),
                                     horizontal=False,
                                     key="orb_true_3h")
