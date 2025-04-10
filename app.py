@@ -158,7 +158,7 @@ if df_1h is not None:
     if 'ORB_valid' in filtered_df_1h.columns and not filtered_df_1h.empty:
         orb_counts = filtered_df_1h['ORB_valid'].value_counts(normalize=True)
         true_rate = orb_counts.get(True, 0)  # Default to 0 if True isn't present
-        st.metric(label="ORB Validity Rate", value=f"{true_rate:.2%}")
+        st.metric(label="ORB True Rate (1m Body Close)", value=f"{true_rate:.2%}")
 
     # Calculate probability distributions for "low bucket" and "high bucket"
     low_counts = filtered_df_1h["low_bucket"].value_counts(normalize=True).reset_index()
