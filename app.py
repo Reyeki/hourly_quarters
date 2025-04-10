@@ -82,7 +82,7 @@ if df_1h is not None:
 
     # Centered line with four Q-direction dropdowns
     st.markdown("### Hour Filters")
-    q_col1, q_col2, q_col3, q_col4, q_col5, q_col6, q_col7 = st.columns([1, 1, 1, 1, 1, 1, 1.5])  # Extra column for centering
+    q_col1, q_col2, q_col3, q_col4, q_col5, q_col6, q_col7, q_col8 = st.columns([1, 1, 1, 1, 1, 1, 1, 1.5])  # Extra column for centering
 
     q1_filter = q_col1.radio(
         "Q1",
@@ -111,8 +111,12 @@ if df_1h is not None:
     orb_filter = q_col6.radio("5m ORB Direction",
                               options=["All"] + sorted(df_1h["ORB_direction"].dropna().unique().tolist()),
                               horizontal=False)
+    orb_true_filter = q_col7.radio("ORB True/False",
+                              options=["All"] + sorted(df_1h["ORB_valid"].dropna().unique().tolist()),
+                              horizontal=False)
     
-    with q_col7:
+    
+    with q_col8:
         low_filter = st.multiselect(
             "Low Exclusion",
             options=sorted(df_1h["low_bucket"].dropna().unique().tolist())
@@ -149,6 +153,8 @@ if df_1h is not None:
         filtered_df_1h = filtered_df_1h[filtered_df_1h['prev_hour_direction'] == prev_hour_filter] 
     if orb_filter != 'All':
         filtered_df_1h = filtered_df_1h[filtered_df_1h['ORB_direction'] == orb_filter] 
+    if orb_true_filter != 'All':
+        filtered_df_1h = filtered_df_1h[filtered_df_1h['ORB_valid'] == orb_filter] 
     if low_filter:
         filtered_df_1h = filtered_df_1h[~filtered_df_1h['low_bucket'].isin(low_filter)]
     if high_filter:
