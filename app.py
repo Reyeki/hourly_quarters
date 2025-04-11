@@ -115,7 +115,7 @@ if df_1h is not None:
                               options=["All"] + sorted(df_1h["ORB_valid"].dropna().unique().tolist()),
                               horizontal=False)
     hourly_open_position = q_col8.radio("Hourly Open Position",
-                              options=["All"] + ['Above PHH', '0% - 25%', '25% - 50%', '50% - 75%', '75% - 100%', 'Below PHL'],
+                              options=["All"] + ['Above PHH', '0% >= x > 25%', '25% >= x > 50%', '50% >= x > 75%', '75% >= x > 100%', 'Below PHL'],
                               horizontal=False)
     
     
