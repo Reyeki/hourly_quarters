@@ -161,7 +161,7 @@ if df_1h is not None:
         
     if hourly_open_position != 'All':
         if hourly_open_position == 'Above PHH':
-            filtered_df_1h = filtered_df_1h[filtered_df_1h['hourly_open_position'] > 0] 
+            filtered_df_1h = filtered_df_1h[filtered_df_1h['hourly_open_position'] < 0] 
         if hourly_open_position == '0% >= x > 25%':
             filtered_df_1h = filtered_df_1h[(filtered_df_1h['hourly_open_position'] >= 0) &
                                             (filtered_df_1h['hourly_open_position'] < 0.25)] 
