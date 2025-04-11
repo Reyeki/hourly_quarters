@@ -82,7 +82,7 @@ if df_1h is not None:
 
     # Centered line with four Q-direction dropdowns
     st.markdown("### Hour Filters")
-    q_col1, q_col2, q_col3, q_col4, q_col5, q_col6, q_col7, q_col8 = st.columns([1, 1, 1, 1, 1, 1, 1, 1.5])  # Extra column for centering
+    q_col1, q_col2, q_col3, q_col4, q_col5, q_col6, q_col7, q_col8, q_col9 = st.columns([1, 1, 1, 1, 1, 1, 1, 1, 1.5])  # Extra column for centering
 
     q1_filter = q_col1.radio(
         "Q1",
@@ -114,9 +114,12 @@ if df_1h is not None:
     orb_true_filter = q_col7.radio("ORB True/False",
                               options=["All"] + sorted(df_1h["ORB_valid"].dropna().unique().tolist()),
                               horizontal=False)
+    hourly_open_position = q_col8.radio("Hourly Open Position",
+                              options=["All"] + ['Above PHH', '0% - 25%', '25% - 50%', '50% - 75%', '75% - 100%', 'Below PHL']
+                              horizontal=False)
     
     
-    with q_col8:
+    with q_col9:
         low_filter = st.multiselect(
             "Low Exclusion",
             options=sorted(df_1h["low_bucket"].dropna().unique().tolist())
@@ -155,6 +158,26 @@ if df_1h is not None:
         filtered_df_1h = filtered_df_1h[filtered_df_1h['ORB_direction'] == orb_filter] 
     if orb_true_filter != 'All':
         filtered_df_1h = filtered_df_1h[filtered_df_1h['ORB_valid'] == orb_true_filter] 
+        
+    if hourly_open_position != 'All':
+        if hourly_open_position == 'Above PHH':
+            filtered_df_1h = filtered_df_1h[filtered_df_1h['hourly_open_position'] > 0] 
+        if hourly_open_position == '0% >= x > 25%':
+            filtered_df_1h = filtered_df_1h[(filtered_df_1h['hourly_open_position'] >= 0) &
+                                            (filtered_df_1h['hourly_open_position'] < 0.25)] 
+        if hourly_open_position == '25% >= x > 50%':
+            filtered_df_1h = filtered_df_1h[(filtered_df_1h['hourly_open_position'] >= 0.25) &
+                                            (filtered_df_1h['hourly_open_position'] < 0.50)] 
+        if hourly_open_position == '50% >= x > 75%':
+            filtered_df_1h = filtered_df_1h[(filtered_df_1h['hourly_open_position'] >= 0.50) &
+                                            (filtered_df_1h['hourly_open_position'] < 0.75)] 
+        if hourly_open_position == '75% >= x > 100%':
+            filtered_df_1h = filtered_df_1h[(filtered_df_1h['hourly_open_position'] >= 0.75) &
+                                            (filtered_df_1h['hourly_open_position'] < 1.00)] 
+        if hourly_open_position == 'Below PHL':
+            filtered_df_1h = filtered_df_1h[filtered_df_1h['hourly_open_position'] > 1] 
+
+    
     if low_filter:
         filtered_df_1h = filtered_df_1h[~filtered_df_1h['low_bucket'].isin(low_filter)]
     if high_filter:
