@@ -164,16 +164,16 @@ if df_1h is not None:
            # filtered_df_1h = filtered_df_1h[filtered_df_1h['hourly_open_position'] < 0] 
       #  if hourly_open_position == '0% >= x > 25%':
          #   filtered_df_1h = filtered_df_1h[(filtered_df_1h['hourly_open_position'] >= 0) &
-                                            (filtered_df_1h['hourly_open_position'] < 0.25)] 
+                                           # (filtered_df_1h['hourly_open_position'] < 0.25)] 
       #  if hourly_open_position == '25% >= x > 50%':
          #   filtered_df_1h = filtered_df_1h[(filtered_df_1h['hourly_open_position'] >= 0.25) &
-                                            (filtered_df_1h['hourly_open_position'] < 0.50)] 
+                                            #(filtered_df_1h['hourly_open_position'] < 0.50)] 
        # if hourly_open_position == '50% >= x > 75%':
          #   filtered_df_1h = filtered_df_1h[(filtered_df_1h['hourly_open_position'] >= 0.50) &
-                                            (filtered_df_1h['hourly_open_position'] < 0.75)] 
+                                            #(filtered_df_1h['hourly_open_position'] < 0.75)] 
       #  if hourly_open_position == '75% >= x > 100%':
        #     filtered_df_1h = filtered_df_1h[(filtered_df_1h['hourly_open_position'] >= 0.75) &
-                                            (filtered_df_1h['hourly_open_position'] < 1.00)] 
+                                            #(filtered_df_1h['hourly_open_position'] < 1.00)] 
       #  if hourly_open_position == 'Below PHL':
          #   filtered_df_1h = filtered_df_1h[filtered_df_1h['hourly_open_position'] > 1] 
 
