@@ -115,10 +115,10 @@ if df_1h is not None:
     orb_true_filter = q_col7.radio("ORB True/False",
                               options=["All"] + sorted(df_1h["ORB_valid"].dropna().unique().tolist()),
                               horizontal=False)
-    hourly_open_position = q_col8.radio("Hourly Open Position",
+    hourly_open_position = q_col9.radio("Hourly Open Position",
                               options=["All"] + ['0% >= x > 25%', '25% >= x > 50%', '50% >= x > 75%', '75% >= x > 100%'],
                               horizontal=False)
-    phh_phl_hit = q_col9.radio("PHH / PHL ",
+    phh_phl_hit = q_col8.radio("PHH / PHL Hit",
                               options=["All"] + ['PHH Hit', 'PHL Hit'],
                               horizontal=False)
     
