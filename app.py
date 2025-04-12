@@ -207,7 +207,7 @@ if df_1h is not None:
     # Position the text annotations outside the bars
     fig_low.update_traces(textposition="outside")
     fig_low.update_layout(
-        title_x=0.5,
+        title={'x': 0.5, 'xanchor': 'center'},
         xaxis=dict(
         categoryorder='array',
         categoryarray=desired_order
@@ -225,7 +225,7 @@ if df_1h is not None:
     )
     fig_high.update_traces(textposition="outside")
     fig_high.update_layout(
-        title_x=0.5,
+        title={'x': 0.5, 'xanchor': 'center'},
         xaxis=dict(
         categoryorder='array',
         categoryarray=desired_order
