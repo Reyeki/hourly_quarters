@@ -207,7 +207,8 @@ if df_1h is not None:
     # Position the text annotations outside the bars
     fig_low.update_traces(textposition="outside")
     fig_low.update_layout(
-    xaxis=dict(
+        title_x=0.5,
+        xaxis=dict(
         categoryorder='array',
         categoryarray=desired_order
     )
@@ -224,7 +225,8 @@ if df_1h is not None:
     )
     fig_high.update_traces(textposition="outside")
     fig_high.update_layout(
-    xaxis=dict(
+        title_x=0.5,
+        xaxis=dict(
         categoryorder='array',
         categoryarray=desired_order
     )
@@ -249,6 +251,7 @@ if df_1h is not None:
         labels={"Hit Type": "Hit Type", "Percentage": "Hit Percentage"},
         text=hit_pct_df["Percentage"].apply(lambda x: f"{x:.2%}")
     )
+    fig_hits.update_layout(title_x=0.5)
     fig_hits.update_traces(textposition='outside')
     fig_hits.update_yaxes(range=[0, 1])
 
