@@ -230,10 +230,33 @@ if df_1h is not None:
     )
 )
 
+    # Here, the proportion (mean) of True values in a boolean series represents the percentage hit.
+    phh_hit_pct = filtered_df_1h['phh_hit'].mean()
+    phl_hit_pct = filtered_df_1h['phl_hit'].mean()
+    
+    # Create a DataFrame for plotting
+    hit_pct_df = pd.DataFrame({
+        'Hit Type': ['PHH Hit', 'PHL Hit'],
+        'Percentage': [phh_hit_pct, phl_hit_pct]
+    })
+    
+    # Create a bar chart for hit percentages
+    fig_hits = px.bar(
+        hit_pct_df,
+        x="Hit Type",
+        y="Percentage",
+        title="Previous Hour High/Low Hit Percentage",
+        labels={"Hit Type": "Hit Type", "Percentage": "Hit Percentage"},
+        text=hit_pct_df["Percentage"].apply(lambda x: f"{x:.2%}")
+    )
+    fig_hits.update_traces(textposition='outside')
+    fig_hits.update_yaxes(range=[0, 1])
+
     # Display the two charts side by side using st.columns
-    col1, col2 = st.columns(2)
-    col1.plotly_chart(fig_low, use_container_width=True)
-    col2.plotly_chart(fig_high, use_container_width=True)
+    col1, col2, col3 = st.columns(3)
+    col1.plotly_chart(fig_hits, use_container_width=True)
+    col2.plotly_chart(fig_low, use_container_width=True)
+    col3.plotly_chart(fig_high, use_container_width=True)
 
     # Calculate distribution of hour_direction in the filtered data
     # Normalize direction values
