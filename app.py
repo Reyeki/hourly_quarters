@@ -8,7 +8,7 @@ st.set_page_config(layout='wide')
 # ✅ Store username-password pairs
 USER_CREDENTIALS = {
     "badboyz": "bangbang",
-    "dreamteam" : "strike"
+    "dreamteam" : "strike",
 }
 
 # ✅ Initialize session state for authentication
