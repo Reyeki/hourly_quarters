@@ -251,7 +251,8 @@ if df_1h is not None:
         labels={"Hit Type": "Hit Type", "Percentage": "Hit Percentage"},
         text=hit_pct_df["Percentage"].apply(lambda x: f"{x:.2%}")
     )
-    fig_hits.update_layout(title_x=0.5)
+    fig_hits.update_layout(title={'x': 0.5, 'xanchor': 'center'})
+
     fig_hits.update_traces(textposition='outside')
     fig_hits.update_yaxes(range=[0, 1])
 
