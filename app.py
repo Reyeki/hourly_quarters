@@ -178,7 +178,12 @@ if df_1h is not None:
             filtered_df_1h = filtered_df_1h[(filtered_df_1h['hourly_open_position'] >= 0.75) &
                                             (filtered_df_1h['hourly_open_position'] < 1.00)] 
 
-    
+    if phh_phl_hit != 'All':
+        if phh_phl_hit == 'PHH Hit':
+            filtered_df_1h = filtered_df_1h[filtered_df_1h['phh_hit']==True]
+        if phh_phl_hit == 'PHL Hit':
+            filtered_df_1h = filtered_df_1h[filtered_df_1h['phl_hit']==True]
+        
     if low_filter:
         filtered_df_1h = filtered_df_1h[~filtered_df_1h['low_bucket'].isin(low_filter)]
     if high_filter:
