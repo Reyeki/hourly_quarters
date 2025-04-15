@@ -83,7 +83,7 @@ if df_1h is not None:
 
     # Centered line with four Q-direction dropdowns
     st.markdown("### Hour Filters")
-    q_col1, q_col2, q_col3, q_col4, q_col5, q_col6, q_col7, q_col9, q_col10 = st.columns([0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 1.2, 1.5])  # Extra column for centering
+    q_col1, q_col2, q_col3, q_col4, q_col5, q_col6, q_col7, q_col8, q_col9, q_col10 = st.columns([0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 1.2, 1.5])  # Extra column for centering
 
     q1_filter = q_col1.radio(
         "Q1",
@@ -118,6 +118,11 @@ if df_1h is not None:
     hourly_open_position = q_col9.radio("Hourly Open Position",
                               options=["All"] + ['0% >= x > 25%', '25% >= x > 50%', '50% >= x > 75%', '75% >= x > 100%'],
                               horizontal=False)
+
+    phh_phl_hit = q_col8.radio("PHH / PHL Hit",
+                        options=["All"] + ['PHH Hit', 'PHL Hit'],
+                        horizontal=False,
+                        )
     
     
     with q_col10:
@@ -129,9 +134,6 @@ if df_1h is not None:
             "High Exclusion",
             options=sorted(df_1h["high_bucket"].dropna().unique().tolist())
         )
-        phh_phl_hit = st.multiselect("PHH / PHL Hit",
-                        options=["All"] + ['PHH Hit', 'PHL Hit'],
-                        )
 
     ###  Apply Filters
     filtered_df_1h = df_1h[df_1h['Instrument'] == selected_instrument]
