@@ -129,7 +129,7 @@ if df_1h is not None:
             "High Exclusion",
             options=sorted(df_1h["high_bucket"].dropna().unique().tolist())
         )
-        phh_phl_hit = st.mutliselect("PHH / PHL Hit",
+        phh_phl_hit = st.multiselect("PHH / PHL Hit",
                         options=["All"] + ['PHH Hit', 'PHL Hit'],
                         )
 
