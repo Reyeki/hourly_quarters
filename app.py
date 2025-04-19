@@ -437,6 +437,11 @@ if df_3h is not None:
         if period_open_position == '75% >= x > 100%':
             filtered_df_3h = filtered_df_3h[(filtered_df_3h['three_hour_open_position'] >= 0.75) &
                                             (filtered_df_3h['three_hour_open_position'] < 1.00)] 
+
+    if pph_hit_time_filter != 'All':
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['phl_hit_bucket'] == pph_hit_time_filter] 
+    if ppl_hit_time_filter != 'All':
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['phl_hit_bucket'] == ppl_hit_time_filter] 
             
     if low_filter_3h:
         filtered_df_3h = filtered_df_3h[~filtered_df_3h['low_bucket'].isin(low_filter_3h)]
@@ -493,10 +498,37 @@ if df_3h is not None:
     )
 )
 
+    # Here, the proportion (mean) of True values in a boolean series represents the percentage hit.
+    pph_hit_pct = filtered_df_3h['phh_hit'].mean()
+    ppl_hit_pct = filtered_df_3h['phl_hit'].mean()
+    ppmid_hit_pct = filtered_df_3h['pmid_hit'].mean()
+    
+    # Create a DataFrame for plotting
+    hit_pct_df = pd.DataFrame({
+        'Hit Type': ['PPH Hit', 'PPL Hit', 'PPM Hit'],
+        'Percentage': [pph_hit_pct, ppl_hit_pct, ppmid_hit_pct]
+    })
+    
+    # Create a bar chart for hit percentages
+    fig_hits = px.bar(
+        hit_pct_df,
+        x="Hit Type",
+        y="Percentage",
+        title="PHH / PHL / PHM Rate",
+        labels={"Hit Type": "Hit Type", "Percentage": "Hit Percentage"},
+        text=hit_pct_df["Percentage"].apply(lambda x: f"{x:.2%}")
+    )
+    fig_hits.update_layout(title={'x': 0.5, 'xanchor': 'center'})
+
+    fig_hits.update_traces(textposition='outside')
+    fig_hits.update_yaxes(range=[0, 1])
+
     # Display the two charts side by side using st.columns
-    col1, col2 = st.columns(2)
-    col1.plotly_chart(fig_low, use_container_width=True)
-    col2.plotly_chart(fig_high, use_container_width=True)
+    col1, col2, col3 = st.columns((1, 2, 2))
+    col1.plotly_chart(fig_hits, use_container_width=True)
+    col2.plotly_chart(fig_low, use_container_width=True)
+    col3.plotly_chart(fig_high, use_container_width=True)
+
 
 # Calculate distribution of hour_direction in the filtered data
 # Normalize direction values
