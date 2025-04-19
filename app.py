@@ -52,6 +52,8 @@ if st.sidebar.button("Logout"):
 url_1h_eq = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/ES_NQ_YM_Hourly_Quartal_1min_Processed_from_2016.csv"
 url_1h_comm = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/CL_NG_GC_Hourly_Quartal_1min_Processed_from_2016.csv"
 url_3h = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/Merged_3H_Quartal_1min_Processed_from_2016.csv"
+
+# merge separate dataframes
 df_1h_eq = pd.read_csv(url_1h_eq)
 df_1h_comm = pd.read_csv(url_1h_comm)
 df_1h = pd.concat([df_1h_eq, df_1h_comm])
@@ -77,7 +79,7 @@ if df_1h is not None:
 
     # Centered line with four Q-direction dropdowns
     st.markdown("### Hour Filters")
-    q_col1, q_col2, q_col3, q_col4, q_col5, q_col6, q_col7, q_col8, q_col9, q_col10 = st.columns([0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 1.2, 1.5])  # Extra column for centering
+    q_col1, q_col2, q_col3, q_col4, q_col5, q_col6, q_col7, q_col8, q_col9, q_col10, q_col11 = st.columns([0.7, 0.7, 0.7, 0.7, 0.8, 0.8, 0.8, 0.7, 0.7, 1.2, 1.5])  # Extra column for centering
 
     q1_filter = q_col1.radio(
         "Q1",
@@ -109,17 +111,21 @@ if df_1h is not None:
     orb_true_filter = q_col7.radio("ORB True/False",
                               options=["All"] + sorted(df_1h["ORB_valid"].dropna().unique().tolist()),
                               horizontal=False)
-    hourly_open_position = q_col9.radio("Hourly Open Position",
+    hourly_open_position = q_col10.radio("Hourly Open Position",
                               options=["All"] + ['0% >= x > 25%', '25% >= x > 50%', '50% >= x > 75%', '75% >= x > 100%'],
                               horizontal=False)
 
-    phh_phl_hit = q_col8.radio("PHH / PHL Hit",
-                        options=["All"] + ['PHH Hit', 'PHL Hit'],
+    phh_hit_time_filter = q_col8.radio("PHH Hit Time",
+                        options=["All"] + df_1h["phh_hit_bucket"].dropna().unique().tolist()),
+                        horizontal=False,
+                        )
+    phl_hit_time_filter = q_col9.radio("PHL Hit Time",
+                        options=["All"] + df_1h["phl_hit_bucket"].dropna().unique().tolist()),
                         horizontal=False,
                         )
     
     
-    with q_col10:
+    with q_col11:
         low_filter = st.multiselect(
             "Low Exclusion",
             options=sorted(df_1h["low_bucket"].dropna().unique().tolist())
@@ -174,11 +180,10 @@ if df_1h is not None:
             filtered_df_1h = filtered_df_1h[(filtered_df_1h['hourly_open_position'] >= 0.75) &
                                             (filtered_df_1h['hourly_open_position'] < 1.00)] 
 
-    if phh_phl_hit != 'All':
-        if phh_phl_hit == 'PHH Hit':
-            filtered_df_1h = filtered_df_1h[filtered_df_1h['phh_hit']==True]
-        if phh_phl_hit == 'PHL Hit':
-            filtered_df_1h = filtered_df_1h[filtered_df_1h['phl_hit']==True]
+    if phh_hit_time_filter != 'All':
+        filtered_df_1h = filtered_df_1h[filtered_df_1h['phh_hit_bucket'] == phh_hit_time_filter] 
+    if phl_hit_time_filter != 'All':
+        filtered_df_1h = filtered_df_1h[filtered_df_1h['phl_hit_bucket'] == phl_hit_time_filter] 
         
     if low_filter:
         filtered_df_1h = filtered_df_1h[~filtered_df_1h['low_bucket'].isin(low_filter)]
