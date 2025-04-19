@@ -51,14 +51,18 @@ if st.sidebar.button("Logout"):
 # Upload CSV File
 url_1h_eq = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/ES_NQ_YM_Hourly_Quartal_1min_Processed_from_2016.csv"
 url_1h_comm = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/CL_NG_GC_Hourly_Quartal_1min_Processed_from_2016.csv"
-url_3h = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/Merged_3H_Quartal_1min_Processed_from_2016.csv"
+url_3h_eq = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/ES_NQ_YM_3H_Quartal_1min_Processed_from_2016.csv"
+url_3h_comm = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/CL_NG_GC_3H_Quartal_1min_Processed_from_2016.csv"
 
 # merge separate dataframes
 df_1h_eq = pd.read_csv(url_1h_eq)
 df_1h_comm = pd.read_csv(url_1h_comm)
 df_1h = pd.concat([df_1h_eq, df_1h_comm])
 
-df_3h = pd.read_csv(url_3h)
+df_3h_eq = pd.read_csv(url_3h_eq)
+df_3h_comm = pd.read_csv(url_3h_comm)
+df_3h = pd.concat([df_3h_eq, df_3h_comm])
+
 df_1h = df_1h.drop(columns=['Unnamed: 0', 'Unnamed: 0.1'])
 df_3h = df_3h.drop(columns=['Unnamed: 0', 'Unnamed: 0.1'])
 
