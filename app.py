@@ -327,7 +327,7 @@ if df_3h is not None:
 
     # Centered line with four Q-direction dropdowns
     st.markdown("### 3H Filters")
-    q_col1_3h, q_col2_3h, q_col3_3h, q_col4_3h, q_col5_3h, q_col6_3h, q_col7_3h, q_col8_3h = st.columns([1, 1, 1, 1, 1, 1, 1, 1.5])  # Extra column for centering
+    q_col1_3h, q_col2_3h, q_col3_3h, q_col4_3h, q_col5_3h, q_col6_3h, q_col7_3h, q_col8_3h, q_col9_3h, q_col10_3h, q_col11_3h = st.columns([0.75, 0.75, 0.75, 0.75, 0.8, 0.75, 0.8, 0.7, 0.7, 1.2, 1.5]) # Extra column for centering
 
     q1_filter_3h = q_col1_3h.radio(
         "Q1",
@@ -366,7 +366,21 @@ if df_3h is not None:
                                     options=["All"] +sorted(df_3h["ORB_valid"].dropna().unique().tolist()),
                                     horizontal=False,
                                     key="orb_true_3h")
-    with q_col8_3h:
+    period_open_position = q_col10_3h.radio("3H Open Position",
+                              options=["All"] + ['0% >= x > 25%', '25% >= x > 50%', '50% >= x > 75%', '75% >= x > 100%'],
+                              horizontal=False)
+
+    pph_hit_time_filter = q_col8_3h.radio("PPH Hit Time",
+                        options=["All"] + sorted(df_3h["phh_hit_bucket"].dropna().unique().tolist()),
+                        horizontal=False,
+                        )
+    ppl_hit_time_filter = q_col9_3h.radio("PPL Hit Time",
+                        options=["All"] + sorted(df_3h["phl_hit_bucket"].dropna().unique().tolist()),
+                        horizontal=False,
+                        )
+    
+
+    with q_col11_3h:
         low_filter_3h = st.multiselect(
             "Low Exclusion",
             options=sorted(df_3h["low_bucket"].dropna().unique().tolist()),
@@ -408,6 +422,22 @@ if df_3h is not None:
         filtered_df_3h = filtered_df_3h[filtered_df_3h['ORB_direction'] == orb_filter_3h] 
     if orb_true_filter_3h != 'All':
         filtered_df_3h = filtered_df_3h[filtered_df_3h['ORB_valid'] == orb_true_filter_3h] 
+        
+    if period_open_position != 'All':
+
+        if period_open_position == '0% >= x > 25%':
+            filtered_df_3h = filtered_df_3h[(filtered_df_3h['three_hour_open_position'] >= 0) &
+                                            (filtered_df_3h['three_hour_open_position'] < 0.25)] 
+        if period_open_position == '25% >= x > 50%':
+            filtered_df_3h = filtered_df_3h[(filtered_df_3h['three_hour_open_position'] >= 0.25) &
+                                            (filtered_df_3h['three_hour_open_position'] < 0.50)] 
+        if period_open_position == '50% >= x > 75%':
+            filtered_df_3h = filtered_df_3h[(filtered_df_3h['three_hour_open_position'] >= 0.50) &
+                                            (filtered_df_3h['three_hour_open_position'] < 0.75)] 
+        if period_open_position == '75% >= x > 100%':
+            filtered_df_3h = filtered_df_3h[(filtered_df_3h['three_hour_open_position'] >= 0.75) &
+                                            (filtered_df_3h['three_hour_open_position'] < 1.00)] 
+            
     if low_filter_3h:
         filtered_df_3h = filtered_df_3h[~filtered_df_3h['low_bucket'].isin(low_filter_3h)]
     if high_filter_3h:
