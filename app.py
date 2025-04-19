@@ -439,7 +439,7 @@ if df_3h is not None:
                                             (filtered_df_3h['three_hour_open_position'] < 1.00)] 
 
     if pph_hit_time_filter != 'All':
-        filtered_df_3h = filtered_df_3h[filtered_df_3h['phl_hit_bucket'] == pph_hit_time_filter] 
+        filtered_df_3h = filtered_df_3h[filtered_df_3h['phh_hit_bucket'] == pph_hit_time_filter] 
     if ppl_hit_time_filter != 'All':
         filtered_df_3h = filtered_df_3h[filtered_df_3h['phl_hit_bucket'] == ppl_hit_time_filter] 
             
