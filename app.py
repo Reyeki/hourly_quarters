@@ -249,7 +249,7 @@ if df_1h is not None:
     
     # Create a DataFrame for plotting
     hit_pct_df = pd.DataFrame({
-        'Hit Type': ['PHH Hit', 'PHL Hit', 'PHM Hit],
+        'Hit Type': ['PHH Hit', 'PHL Hit', 'PHM Hit'],
         'Percentage': [phh_hit_pct, phl_hit_pct, pmid_hit_pct]
     })
     
