@@ -49,25 +49,19 @@ if st.sidebar.button("Logout"):
     st.rerun()
 
 # Upload CSV File
-url_1h = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/Merged_Hourly_Quartal_1min_Processed_from_2016.csv"
+url_1h_eq = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/ES_NQ_YM_Hourly_Quartal_1min_Processed_from_2016.csv"
+url_1h_comm = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/CL_NG_GC_Hourly_Quartal_1min_Processed_from_2016.csv"
 url_3h = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/Merged_3H_Quartal_1min_Processed_from_2016.csv"
-df_1h = pd.read_csv(url_1h)
+df_1h_eq = pd.read_csv(url_1h_eq)
+df_1h_comm = pd.read_csv(url_1h_comm)
+df_1h = pd.concat([df_1h_eq, df_1h_comm])
+
 df_3h = pd.read_csv(url_3h)
 df_1h = df_1h.drop(columns=['Unnamed: 0', 'Unnamed: 0.1'])
 df_3h = df_3h.drop(columns=['Unnamed: 0', 'Unnamed: 0.1'])
 
 df_1h["three_hour_start"] = (df_1h["hour"] // 3) * 3
 
-# Now merge the two dataframes on 'date', 'Instrument' (if applicable), and the computed three-hour period.
-# Use suffixes to differentiate columns that exist in both dataframes.
-merged_tf = pd.merge(
-    df_1h,
-    df_3h,
-    left_on=["date", "Instrument", "three_hour_start"],  # from hourly
-    right_on=["date", "Instrument", "start_hour"],         # from three-hour
-    how="left",
-    suffixes=("_hourly", "_3h")
-)
 
 if df_1h is not None:
 
