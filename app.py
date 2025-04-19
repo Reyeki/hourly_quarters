@@ -245,11 +245,12 @@ if df_1h is not None:
     # Here, the proportion (mean) of True values in a boolean series represents the percentage hit.
     phh_hit_pct = filtered_df_1h['phh_hit'].mean()
     phl_hit_pct = filtered_df_1h['phl_hit'].mean()
+    pmid_hit_pct = filtered_df_1h['pmid_hit'].mean()
     
     # Create a DataFrame for plotting
     hit_pct_df = pd.DataFrame({
-        'Hit Type': ['PHH Hit', 'PHL Hit'],
-        'Percentage': [phh_hit_pct, phl_hit_pct]
+        'Hit Type': ['PHH Hit', 'PHL Hit', 'PHM Hit],
+        'Percentage': [phh_hit_pct, phl_hit_pct, pmid_hit_pct]
     })
     
     # Create a bar chart for hit percentages
@@ -257,7 +258,7 @@ if df_1h is not None:
         hit_pct_df,
         x="Hit Type",
         y="Percentage",
-        title="PHH / PHL Hit Rate",
+        title="PHH / PHL / PHM Rate",
         labels={"Hit Type": "Hit Type", "Percentage": "Hit Percentage"},
         text=hit_pct_df["Percentage"].apply(lambda x: f"{x:.2%}")
     )
