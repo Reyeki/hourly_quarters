@@ -514,7 +514,7 @@ if df_3h is not None:
         hit_pct_df,
         x="Hit Type",
         y="Percentage",
-        title="PHH / PHL / PHM Rate",
+        title="PPH / PPL / PPM Rate",
         labels={"Hit Type": "Hit Type", "Percentage": "Hit Percentage"},
         text=hit_pct_df["Percentage"].apply(lambda x: f"{x:.2%}")
     )
