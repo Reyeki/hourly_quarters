@@ -79,7 +79,7 @@ if df_1h is not None:
     three_hour_options = ['All'] + [0, 3, 6, 9, 12, 15, 18, 21]
     selected_hour = st.sidebar.selectbox("Select Hour", hour_options)
     selected_three_hour = st.sidebar.selectbox("Select 3H Start", three_hour_options)
-    day_options = ['All'] + ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+    day_options = ['All'] + ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
     selected_day = st.sidebar.selectbox("Day of Week", day_options)
 
     # Centered line with four Q-direction dropdowns
