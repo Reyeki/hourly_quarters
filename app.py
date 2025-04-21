@@ -50,9 +50,9 @@ if st.sidebar.button("Logout"):
 
 # Upload CSV File
 url_1h_eq = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/main/ES_NQ_YM_Hourly_Quartal_1min_Processed_from_2016.csv"
-url_1h_comm = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/main/CL_NG_GC_Hourly_Quartal_1min_Processed_from_2016.csv"
+url_1h_comm = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/main/CL_GC_Hourly_Quartal_1min_Processed_from_2016.csv"
 url_3h_eq = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/main/ES_NQ_YM_3H_Quartal_1min_Processed_from_2016.csv"
-url_3h_comm = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/main/CL_NG_GC_3H_Quartal_1min_Processed_from_2016.csv"
+url_3h_comm = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/main/CL_GC_3H_Quartal_1min_Processed_from_2016.csv"
 
 # merge separate dataframes
 df_1h_eq = pd.read_csv(url_1h_eq)
