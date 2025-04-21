@@ -63,8 +63,8 @@ df_3h_eq = pd.read_csv(url_3h_eq)
 df_3h_comm = pd.read_csv(url_3h_comm)
 df_3h = pd.concat([df_3h_eq, df_3h_comm])
 
-df_1h = df_1h.drop(columns=['Unnamed: 0', 'Unnamed: 0.1'])
-df_3h = df_3h.drop(columns=['Unnamed: 0', 'Unnamed: 0.1'])
+df_1h = df_1h.drop(columns=['Unnamed: 0', 'Unnamed: 0.1', 'phh_hit_time', 'phl_hit_time'])
+df_3h = df_3h.drop(columns=['Unnamed: 0', 'Unnamed: 0.1', 'phh_hit_time', 'phl_hit_time'])
 
 df_1h["three_hour_start"] = (df_1h["hour"] // 3) * 3
 
