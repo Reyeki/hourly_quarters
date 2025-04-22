@@ -66,6 +66,17 @@ df_3h = pd.concat([df_3h_eq, df_3h_comm])
 df_1h = df_1h.drop(columns=['Unnamed: 0', 'Unnamed: 0.1', 'phh_hit_time', 'phl_hit_time', 'date'])
 df_3h = df_3h.drop(columns=['Unnamed: 0', 'Unnamed: 0.1', 'phh_hit_time', 'phl_hit_time', 'date'])
 
+for col in [
+    'Instrument','Q1_direction','Q2_direction','Q3_direction','Q4_direction',
+    'ORB_direction','ORB_valid','hour_direction',
+    'day_of_week','phh_hit_bucket','phl_hit_bucket',
+    'low_bucket','high_bucket'
+]:
+    if col in df_1h:
+        df_1h[col] = df_1h[col].astype('category')
+    if col in df_3h:
+        df_3h[col] = df_3h[col].astype('category')
+
 df_1h["three_hour_start"] = (df_1h["hour"] // 3) * 3
 
 
