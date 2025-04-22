@@ -22,7 +22,6 @@ def load_quartal(urls):
         dfs.append(df)
     full = pd.concat(dfs, ignore_index=True)
     # derive any extras once:
-    full['three_hour_start'] = (full['hour'] // 3) * 3
     return full
 
 # 2) Call the loader for 1H and 3H data
