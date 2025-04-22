@@ -5,6 +5,36 @@ import plotly.express as px
 
 st.set_page_config(layout='wide')
 
+# 1) Define a cached loader
+@st.cache_data  # on older Streamlit use @st.experimental_memo
+def load_quartal(urls):
+    dfs = []
+    for url in urls:
+        df = pd.read_csv(url)
+        # drop the unused columns immediately
+        df = df.drop(columns=[
+            'Unnamed: 0',
+            'Unnamed: 0.1',
+            'phh_hit_time',
+            'phl_hit_time',
+            'date'
+        ], errors='ignore')
+        dfs.append(df)
+    full = pd.concat(dfs, ignore_index=True)
+    # derive any extras once:
+    full['day_of_week'] = pd.to_datetime(full['time']).dt.day_name()
+    full['three_hour_start'] = (full['hour'] // 3) * 3
+    return full
+
+# 2) Call the loader for 1H and 3H data
+url_1h_eq   = "https://…/ES_NQ_YM_Hourly_Quartal_1min_Processed_from_2016.csv"
+url_1h_comm = "https://…/CL_GC_Hourly_Quartal_1min_Processed_from_2016.csv"
+url_3h_eq   = "https://…/ES_NQ_YM_3H_Quartal_1min_Processed_from_2016.csv"
+url_3h_comm = "https://…/CL_GC_3H_Quartal_1min_Processed_from_2016.csv"
+
+df_1h = load_quartal([url_1h_eq, url_1h_comm])
+df_3h = load_quartal([url_3h_eq, url_3h_comm])
+
 # ✅ Store username-password pairs
 USER_CREDENTIALS = {
     "badboyz": "bangbang",
@@ -47,24 +77,6 @@ if st.sidebar.button("Logout"):
     st.session_state["authenticated"] = False
     st.session_state["username"] = None
     st.rerun()
-
-# Upload CSV File
-url_1h_eq = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/main/ES_NQ_YM_Hourly_Quartal_1min_Processed_from_2016.csv"
-url_1h_comm = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/main/CL_GC_Hourly_Quartal_1min_Processed_from_2016.csv"
-url_3h_eq = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/main/ES_NQ_YM_3H_Quartal_1min_Processed_from_2016.csv"
-url_3h_comm = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/main/CL_GC_3H_Quartal_1min_Processed_from_2016.csv"
-
-# merge separate dataframes
-df_1h_eq = pd.read_csv(url_1h_eq)
-df_1h_comm = pd.read_csv(url_1h_comm)
-df_1h = pd.concat([df_1h_eq, df_1h_comm])
-
-df_3h_eq = pd.read_csv(url_3h_eq)
-df_3h_comm = pd.read_csv(url_3h_comm)
-df_3h = pd.concat([df_3h_eq, df_3h_comm])
-
-df_1h = df_1h.drop(columns=['Unnamed: 0', 'Unnamed: 0.1', 'phh_hit_time', 'phl_hit_time', 'date'])
-df_3h = df_3h.drop(columns=['Unnamed: 0', 'Unnamed: 0.1', 'phh_hit_time', 'phl_hit_time', 'date'])
 
 for col in [
     'Instrument','Q1_direction','Q2_direction','Q3_direction','Q4_direction',
