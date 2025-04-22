@@ -22,7 +22,6 @@ def load_quartal(urls):
         dfs.append(df)
     full = pd.concat(dfs, ignore_index=True)
     # derive any extras once:
-    full['day_of_week'] = pd.to_datetime(full['time']).dt.day_name()
     full['three_hour_start'] = (full['hour'] // 3) * 3
     return full
 
