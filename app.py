@@ -27,10 +27,10 @@ def load_quartal(urls):
     return full
 
 # 2) Call the loader for 1H and 3H data
-url_1h_eq   = "https://…/ES_NQ_YM_Hourly_Quartal_1min_Processed_from_2016.csv"
-url_1h_comm = "https://…/CL_GC_Hourly_Quartal_1min_Processed_from_2016.csv"
-url_3h_eq   = "https://…/ES_NQ_YM_3H_Quartal_1min_Processed_from_2016.csv"
-url_3h_comm = "https://…/CL_GC_3H_Quartal_1min_Processed_from_2016.csv"
+url_1h_eq   = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/ES_NQ_YM_3H_Quartal_1min_Processed_from_2016.csv"
+url_1h_comm = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/CL_GC_Quartal_1min_Processed_from_2016.csv"
+url_3h_eq   = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/ES_NQ_YM_3H_Quartal_1min_Processed_from_2016.csv"
+url_3h_comm = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/refs/heads/main/CL_GC_3H_Quartal_1min_Processed_from_2016.csv"
 
 df_1h = load_quartal([url_1h_eq, url_1h_comm])
 df_3h = load_quartal([url_3h_eq, url_3h_comm])
