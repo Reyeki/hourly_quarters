@@ -321,6 +321,8 @@ if df_1h is not None:
 
     # 1) Define your bins & labels
     bins = [i/10 for i in range(-5, 16)]    # [-0.5, -0.4, …, 0.9, 1.0]
+    
+    # 2) Build matching labels for each 0.1-wide interval
     labels = [f"{i/10:.1f}–{(i+1)/10:.1f}" for i in range(-5, 16)]
     
     # 2) Bucket the retracements
