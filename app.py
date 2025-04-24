@@ -320,31 +320,41 @@ if df_1h is not None:
     col3.plotly_chart(fig_high, use_container_width=True)
 
         # 1) Define your bins & labels
-    bins   = [i/10 for i in range(-5, 16)]                          # [0.0,0.1,...,1.0]
-    labels = [f"{i/10:.1f}–{(i+1)/10:.1f}" for i in range(-5, 15)] 
-    
+    def get_dynamic_bins(series_list, width=0.1):
+        """
+        Given one or more pandas.Series, compute
+        a unified bin‐edge array from floor(min) to ceil(max)
+        in steps of `width`.
+        """
+        # concatenate all values, drop NaN
+        all_vals = pd.concat(series_list).dropna()
+        lo, hi = all_vals.min(), all_vals.max()
+        # round outward
+        start = np.floor(lo / width) * width
+        end   = np.ceil (hi / width) * width
+        # make edges
+        return np.arange(start, end + width, width)
+        # 1) compute your global bins once, off the entire df_1h
+        bins = get_dynamic_bins([
+            df_1h["0_5_ORB_max_retracement"],
+            df_1h["5_10_ORB_max_retracement"]
+        ], width=0.1)
+
+    def bucket_and_count(series, bins):
+        # cut into bins; labels are the left–right edge pairs
+        labels = [f"{bins[i]:.1f}–{bins[i+1]:.1f}" for i in range(len(bins)-1)]
+        cat = pd.cut(series.dropna(), bins=bins, labels=labels, include_lowest=True)
+        cnt = cat.value_counts().sort_index().rename_axis("bucket").reset_index(name="count")
+        cnt["cum_pct"] = cnt["count"].cumsum() / cnt["count"].sum()
+        return cnt
+        
     # 2) Bucket the retracements
     #   Make sure to dropna so you don’t get a bucket called “NaN”
-    filtered_df_1h["retr_0_5_bucket"]  = pd.cut(
-        filtered_df_1h["0_5_ORB_max_retracement"].dropna(),
-        bins=bins,
-        labels=labels,
-        include_lowest=True
-    )
-    filtered_df_1h["retr_5_10_bucket"] = pd.cut(
-        filtered_df_1h["5_10_ORB_max_retracement"].dropna(),
-        bins=bins,
-        labels=labels,
-        include_lowest=True
-    )
+    cnt_0_5  = bucket_and_count(filtered_df_1h["0_5_ORB_max_retracement"], bins)
+    cnt_5_10 = bucket_and_count(filtered_df_1h["5_10_ORB_max_retracement"], bins)
     
     # 3) Count each bucket
-    cnt_0_5  = filtered_df_1h["retr_0_5_bucket"].value_counts().sort_index().reset_index()
-    cnt_5_10 = filtered_df_1h["retr_5_10_bucket"].value_counts().sort_index().reset_index()
-    cnt_0_5.columns  = ["bucket", "count_0_5"]
-    cnt_5_10.columns = ["bucket", "count_5_10"]
-    cnt_0_5['cum_pct']  = cnt_0_5['count_0_5'].cumsum()  / cnt_0_5['count_0_5'].sum()
-    cnt_5_10['cum_pct'] = cnt_5_10['count_5_10'].cumsum() / cnt_5_10['count_5_10'].sum()
+    full_labels = [f"{bins[i]:.1f}–{bins[i+1]:.1f}" for i in range(len(bins)-1)]
     
     # 4) Plot side-by-side
     st.markdown("### ORB Max Retracement Distribution")
