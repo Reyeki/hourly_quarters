@@ -87,7 +87,6 @@ df_1h["three_hour_start"] = (df_1h["hour"] // 3) * 3
 
 
 if df_1h is not None:
-    st.write("Columns in df_1h:", df_1h.columns.tolist())
 
     ### **Sidebar: Select Instrument and DR Range**
     instrument_options = df_1h['Instrument'].dropna().unique().tolist()
