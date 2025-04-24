@@ -220,11 +220,26 @@ if df_1h is not None:
     if high_filter:
         filtered_df_1h = filtered_df_1h[~filtered_df_1h['high_bucket'].isin(high_filter)]
 
-        # ORB Validity Rate
+    # Create two side-by-side columns
+    col0_5, col5_10 = st.columns(2)
+    
+    # 0–5 ORB True Rate
     if '0_5_ORB_valid' in filtered_df_1h.columns and not filtered_df_1h.empty:
-        orb_counts = filtered_df_1h['0_5_ORB_valid'].value_counts(normalize=True)
-        true_rate = orb_counts.get(True, 0)  # Default to 0 if True isn't present
-        st.metric(label="ORB True Rate (1m Body Close)", value=f"{true_rate:.2%}")
+        orb0_5 = filtered_df_1h['0_5_ORB_valid'].value_counts(normalize=True)
+        rate0_5 = orb0_5.get(True, 0)
+        col0_5.metric(
+            label="0–5 ORB True Rate",
+            value=f"{rate0_5:.2%}"
+        )
+    
+    # 5–10 ORB True Rate
+    if '5_10_ORB_valid' in filtered_df_1h.columns and not filtered_df_1h.empty:
+        orb5_10 = filtered_df_1h['5_10_ORB_valid'].value_counts(normalize=True)
+        rate5_10 = orb5_10.get(True, 0)
+        col5_10.metric(
+            label="5–10 ORB True Rate",
+            value=f"{rate5_10:.2%}"
+        )
 
     # Calculate probability distributions for "low bucket" and "high bucket"
     low_counts = filtered_df_1h["low_bucket"].value_counts(normalize=True).reset_index()
