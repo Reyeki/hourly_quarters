@@ -132,11 +132,11 @@ if df_1h is not None:
                               horizontal=False)
 
     orb_filter_5_10 = q_col7.radio("5-10 ORB Direction",
-                              options=["All"] + sorted(df_1h["5_10_ORB_direction"].dropna().unique().tolist()),
+                              options=["All"] + ['True', 'False'],
                               horizontal=False)
     
     orb_true_filter_5_10 = q_col8.radio("5-10 ORB True/False",
-                              options=["All"] + sorted(df_1h["5_10_ORB_valid"].dropna().unique().tolist()),
+                              options=["All"] + ['True', 'False'],
                               horizontal=False)
 
     hourly_open_position = q_col9.radio("Hourly Open Position",
