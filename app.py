@@ -320,54 +320,12 @@ if df_1h is not None:
     col3.plotly_chart(fig_high, use_container_width=True)
 
         # 1) Define your bins & labels
-    def get_dynamic_bins(series_list, width=0.1):
-        """
-        Build bin edges from min→max across all series, in steps of `width`,
-        *ignoring* infinite or NaN values.
-        """
-        # concatenate and drop NaN/inf
-        all_vals = pd.concat(series_list)
-        all_vals = all_vals[np.isfinite(all_vals)]  # drops ±inf and NaN
+    # Bin edges from -0.5 up to 1.5 in 0.1 steps
+    bins   = [i/10 for i in range(-5, 16)]   # [-0.5, -0.4, …, 1.4, 1.5]
     
-        if all_vals.empty:
-            st.error("No valid retracement data available for binning.")
-            # fallback to a single bin from 0→1
-            return np.array([0.0, 1.0])
-    
-        lo = float(all_vals.min())
-        hi = float(all_vals.max())
-    
-        # round outward
-        start = np.floor(lo / width) * width
-        end   = np.ceil (hi / width) * width
-    
-        # compute integer number of steps
-        step_count = int(round((end - start) / width))
-    
-        # build edges safely
-        bins = start + np.arange(step_count + 1) * width
-        return bins
-    
-    # 1) compute your global bins once, off the entire df_1h
-    bins = get_dynamic_bins([
-        df_1h["0_5_ORB_max_retracement"],
-        df_1h["5_10_ORB_max_retracement"]
-    ], width=0.1)
-    
-    # 2) bucket *filtered* data into those same bins
-    def bucket_and_count(series, bins):
-        # cut into bins; labels are the left–right edge pairs
-        labels = [f"{bins[i]:.1f}–{bins[i+1]:.1f}" for i in range(len(bins)-1)]
-        cat = pd.cut(series.dropna(), bins=bins, labels=labels, include_lowest=True)
-        cnt = cat.value_counts().sort_index().rename_axis("bucket").reset_index(name="count")
-        cnt["cum_pct"] = cnt["count"].cumsum() / cnt["count"].sum()
-        return cnt
-    
-    cnt_0_5  = bucket_and_count(filtered_df_1h["0_5_ORB_max_retracement"], bins)
-    cnt_5_10 = bucket_and_count(filtered_df_1h["5_10_ORB_max_retracement"], bins)
-    
-    # 3) plot side-by-side, *fixing* the category order to the full-label list
-    full_labels = [f"{bins[i]:.1f}–{bins[i+1]:.1f}" for i in range(len(bins)-1)]
+    # Labels for each interval (there are len(bins)-1 of them)
+    labels = [f"{i/10:.1f}–{(i+1)/10:.1f}" for i in range(-5, 15)]
+# ['-0.5–-0.4', '-0.4–-0.3', …, '1.3–1.4', '1.4–1.5']
     
     # 4) Plot side-by-side
     st.markdown("### ORB Max Retracement Distribution")
