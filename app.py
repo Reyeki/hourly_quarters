@@ -221,7 +221,7 @@ if df_1h is not None:
         filtered_df_1h = filtered_df_1h[~filtered_df_1h['high_bucket'].isin(high_filter)]
 
         # ORB Validity Rate
-    if 'ORB_valid' in filtered_df_1h.columns and not filtered_df_1h.empty:
+    if '0_5_ORB_valid' in filtered_df_1h.columns and not filtered_df_1h.empty:
         orb_counts = filtered_df_1h['0_5_ORB_valid'].value_counts(normalize=True)
         true_rate = orb_counts.get(True, 0)  # Default to 0 if True isn't present
         st.metric(label="ORB True Rate (1m Body Close)", value=f"{true_rate:.2%}")
