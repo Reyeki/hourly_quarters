@@ -78,7 +78,9 @@ if st.sidebar.button("Logout"):
 
 for col in [
     'Instrument','Q1_direction','Q2_direction','Q3_direction','Q4_direction',
-    'ORB_direction','ORB_valid','hour_direction',
+    '0_5_ORB_direction','0_5_ORB_valid',
+    '5_10_ORB_direction','5_10_ORB_valid',
+    'hour_direction',
     'day_of_week','phh_hit_bucket','phl_hit_bucket',
     'low_bucket','high_bucket'
 ]:
