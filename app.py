@@ -6,22 +6,16 @@ import plotly.express as px
 st.set_page_config(layout='wide')
 
 # 1) Define a cached loader
-@st.cache_data  # on older Streamlit use @st.experimental_memo
-def load_quartal(urls):
+@st.cache_data
+def load_quartal(urls, version="v2"):   # <- bump this string to invalidate
     dfs = []
     for url in urls:
         df = pd.read_csv(url)
-        # drop the unused columns immediately
         df = df.drop(columns=[
-            'Unnamed: 0',
-            'Unnamed: 0.1',
-            'phh_hit_time',
-            'phl_hit_time',
-            'date'
+            'Unnamed: 0','Unnamed: 0.1','phh_hit_time','phl_hit_time','date'
         ], errors='ignore')
         dfs.append(df)
     full = pd.concat(dfs, ignore_index=True)
-    # derive any extras once:
     return full
 
 # 2) Call the loader for 1H and 3H data
