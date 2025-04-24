@@ -360,8 +360,51 @@ if df_1h is not None:
         )
         fig_q.update_traces(textinfo='percent+label')
         q_cols[i].plotly_chart(fig_q, use_container_width=True)
-    
-    st.caption(f"Sample size: {len(filtered_df_1h):,} rows")
+
+        # 1) Define your bins & labels
+        bins   = [i/10 for i in range(0, 11)]                          # [0.0,0.1,...,1.0]
+        labels = [f"{i/10:.1f}–{(i+1)/10:.1f}" for i in range(0, 10)]  # "0.0–0.1", …
+        
+        # 2) Bucket the retracements
+        #   Make sure to dropna so you don’t get a bucket called “NaN”
+        filtered_df_1h["retr_0_5_bucket"]  = pd.cut(
+            filtered_df_1h["0_5_ORB_max_retracement"].dropna(),
+            bins=bins,
+            labels=labels,
+            include_lowest=True
+        )
+        filtered_df_1h["retr_5_10_bucket"] = pd.cut(
+            filtered_df_1h["5_10_ORB_max_retracement"].dropna(),
+            bins=bins,
+            labels=labels,
+            include_lowest=True
+        )
+
+        col_ret0, col_ret1 = st.columns(2)
+        
+        with col_ret0:
+            fig_ret0 = px.bar(
+                cnt_0_5,
+                x="bucket",
+                y="count_0_5",
+                title="0–5 ORB Max Retracement",
+                labels={"bucket":"Retracement Interval","count_0_5":"Count"}
+            )
+            fig_ret0.update_layout(xaxis_tickangle=-45)
+            st.plotly_chart(fig_ret0, use_container_width=True)
+        
+        with col_ret1:
+            fig_ret1 = px.bar(
+                cnt_5_10,
+                x="bucket",
+                y="count_5_10",
+                title="5–10 ORB Max Retracement",
+                labels={"bucket":"Retracement Interval","count_5_10":"Count"}
+            )
+            fig_ret1.update_layout(xaxis_tickangle=-45)
+            st.plotly_chart(fig_ret1, use_container_width=True)
+            
+            st.caption(f"Sample size: {len(filtered_df_1h):,} rows")
 
 if df_3h is not None:
 
