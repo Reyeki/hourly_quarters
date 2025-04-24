@@ -347,6 +347,11 @@ if df_1h is not None:
         cnt = cat.value_counts().sort_index().rename_axis("bucket").reset_index(name="count")
         cnt["cum_pct"] = cnt["count"].cumsum() / cnt["count"].sum()
         return cnt
+
+    bins = get_dynamic_bins([
+        df_1h["0_5_ORB_max_retracement"],
+        df_1h["5_10_ORB_max_retracement"]
+    ], width=0.1)
         
     # 2) Bucket the retracements
     #   Make sure to dropna so you don’t get a bucket called “NaN”
