@@ -320,8 +320,8 @@ if df_1h is not None:
     col3.plotly_chart(fig_high, use_container_width=True)
 
         # 1) Define your bins & labels
-    bins   = [i/10 for i in range(0, 11)]                          # [0.0,0.1,...,1.0]
-    labels = [f"{i/10:.1f}–{(i+1)/10:.1f}" for i in range(0, 10)] 
+    bins   = [i/10 for i in range(-5, 11)]                          # [0.0,0.1,...,1.0]
+    labels = [f"{i/10:.1f}–{(i+1)/10:.1f}" for i in range(-5, 10)] 
     
     # 2) Bucket the retracements
     #   Make sure to dropna so you don’t get a bucket called “NaN”
