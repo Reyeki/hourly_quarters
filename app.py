@@ -334,12 +334,14 @@ if df_1h is not None:
         end   = np.ceil (hi / width) * width
         # make edges
         return np.arange(start, end + width, width)
-        # 1) compute your global bins once, off the entire df_1h
-        bins = get_dynamic_bins([
-            df_1h["0_5_ORB_max_retracement"],
-            df_1h["5_10_ORB_max_retracement"]
-        ], width=0.1)
-
+    
+    # 1) compute your global bins once, off the entire df_1h
+    bins = get_dynamic_bins([
+        df_1h["0_5_ORB_max_retracement"],
+        df_1h["5_10_ORB_max_retracement"]
+    ], width=0.1)
+    
+    # 2) bucket *filtered* data into those same bins
     def bucket_and_count(series, bins):
         # cut into bins; labels are the left–right edge pairs
         labels = [f"{bins[i]:.1f}–{bins[i+1]:.1f}" for i in range(len(bins)-1)]
@@ -347,18 +349,11 @@ if df_1h is not None:
         cnt = cat.value_counts().sort_index().rename_axis("bucket").reset_index(name="count")
         cnt["cum_pct"] = cnt["count"].cumsum() / cnt["count"].sum()
         return cnt
-
-    bins = get_dynamic_bins([
-        df_1h["0_5_ORB_max_retracement"],
-        df_1h["5_10_ORB_max_retracement"]
-    ], width=0.1)
-        
-    # 2) Bucket the retracements
-    #   Make sure to dropna so you don’t get a bucket called “NaN”
+    
     cnt_0_5  = bucket_and_count(filtered_df_1h["0_5_ORB_max_retracement"], bins)
     cnt_5_10 = bucket_and_count(filtered_df_1h["5_10_ORB_max_retracement"], bins)
     
-    # 3) Count each bucket
+    # 3) plot side-by-side, *fixing* the category order to the full-label list
     full_labels = [f"{bins[i]:.1f}–{bins[i+1]:.1f}" for i in range(len(bins)-1)]
     
     # 4) Plot side-by-side
