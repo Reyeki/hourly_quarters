@@ -322,18 +322,31 @@ if df_1h is not None:
         # 1) Define your bins & labels
     def get_dynamic_bins(series_list, width=0.1):
         """
-        Given one or more pandas.Series, compute
-        a unified bin‐edge array from floor(min) to ceil(max)
-        in steps of `width`.
+        Build bin edges from min→max across all series, in steps of `width`,
+        *ignoring* infinite or NaN values.
         """
-        # concatenate all values, drop NaN
-        all_vals = pd.concat(series_list).dropna()
-        lo, hi = all_vals.min(), all_vals.max()
+        # concatenate and drop NaN/inf
+        all_vals = pd.concat(series_list)
+        all_vals = all_vals[np.isfinite(all_vals)]  # drops ±inf and NaN
+    
+        if all_vals.empty:
+            st.error("No valid retracement data available for binning.")
+            # fallback to a single bin from 0→1
+            return np.array([0.0, 1.0])
+    
+        lo = float(all_vals.min())
+        hi = float(all_vals.max())
+    
         # round outward
         start = np.floor(lo / width) * width
         end   = np.ceil (hi / width) * width
-        # make edges
-        return np.arange(start, end + width, width)
+    
+        # compute integer number of steps
+        step_count = int(round((end - start) / width))
+    
+        # build edges safely
+        bins = start + np.arange(step_count + 1) * width
+        return bins
     
     # 1) compute your global bins once, off the entire df_1h
     bins = get_dynamic_bins([
