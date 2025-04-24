@@ -93,6 +93,7 @@ df_1h["three_hour_start"] = (df_1h["hour"] // 3) * 3
 
 
 if df_1h is not None:
+    st.write("Columns in df_1h:", df_1h.columns.tolist())
 
     ### **Sidebar: Select Instrument and DR Range**
     instrument_options = df_1h['Instrument'].dropna().unique().tolist()
@@ -140,7 +141,7 @@ if df_1h is not None:
                               options=["All"] + sorted(df_1h["0_5_ORB_valid"].dropna().unique().tolist()),
                               horizontal=False)
 
-    orb_filter_5_10 = q_col8.radio("5-10ORB Direction",
+    orb_filter_5_10 = q_col8.radio("5-10 ORB Direction",
                               options=["All"] + sorted(df_1h["5_10_ORB_direction"].dropna().unique().tolist()),
                               horizontal=False)
     
@@ -233,7 +234,7 @@ if df_1h is not None:
 
         # ORB Validity Rate
     if 'ORB_valid' in filtered_df_1h.columns and not filtered_df_1h.empty:
-        orb_counts = filtered_df_1h['ORB_valid'].value_counts(normalize=True)
+        orb_counts = filtered_df_1h['0_5_ORB_valid'].value_counts(normalize=True)
         true_rate = orb_counts.get(True, 0)  # Default to 0 if True isn't present
         st.metric(label="ORB True Rate (1m Body Close)", value=f"{true_rate:.2%}")
 
