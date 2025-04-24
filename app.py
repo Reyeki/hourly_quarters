@@ -319,15 +319,11 @@ if df_1h is not None:
     col2.plotly_chart(fig_low, use_container_width=True)
     col3.plotly_chart(fig_high, use_container_width=True)
 
-        # 1) Define your bins & labels
-    # Bin edges from -0.5 up to 1.5 in 0.1 steps
-    bins   = [i/10 for i in range(-5, 16)]   # [-0.5, -0.4, …, 1.4, 1.5]
+    bins   = [i/10 for i in range(0, 11)]                          # [0.0,0.1,...,1.0]
+    labels = [f"{i/10:.1f}–{(i+1)/10:.1f}" for i in range(0, 10)]  # "0.0–0.1", …
     
-    # Labels for each interval (there are len(bins)-1 of them)
-    labels = [f"{i/10:.1f}–{(i+1)/10:.1f}" for i in range(-5, 15)]
-# ['-0.5–-0.4', '-0.4–-0.3', …, '1.3–1.4', '1.4–1.5']
-# 2) Bucket the retracements
-#   Make sure to dropna so you don’t get a bucket called “NaN”
+    # 2) Bucket the retracements
+    #   Make sure to dropna so you don’t get a bucket called “NaN”
     filtered_df_1h["retr_0_5_bucket"]  = pd.cut(
         filtered_df_1h["0_5_ORB_max_retracement"].dropna(),
         bins=bins,
@@ -346,6 +342,7 @@ if df_1h is not None:
     cnt_5_10 = filtered_df_1h["retr_5_10_bucket"].value_counts().sort_index().reset_index()
     cnt_0_5.columns  = ["bucket", "count_0_5"]
     cnt_5_10.columns = ["bucket", "count_5_10"]
+    
     # 4) Plot side-by-side
     st.markdown("### ORB Max Retracement Distribution")
     
