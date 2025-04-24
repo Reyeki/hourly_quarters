@@ -226,7 +226,7 @@ if df_1h is not None:
     # 0–5 ORB True Rate
     if '0_5_ORB_valid' in filtered_df_1h.columns and not filtered_df_1h.empty:
         orb0_5 = filtered_df_1h['0_5_ORB_valid'].value_counts(normalize=True)
-        rate0_5 = orb0_5.get(True, 0)
+        rate0_5 = col0.get(True, 0)
         col0_5.metric(
             label="0–5 ORB True Rate",
             value=f"{rate0_5:.2%}"
@@ -235,7 +235,7 @@ if df_1h is not None:
     # 5–10 ORB True Rate
     if '5_10_ORB_valid' in filtered_df_1h.columns and not filtered_df_1h.empty:
         orb5_10 = filtered_df_1h['5_10_ORB_valid'].value_counts(normalize=True)
-        rate5_10 = orb5_10.get(True, 0)
+        rate5_10 = col1.get(True, 0)
         col5_10.metric(
             label="5–10 ORB True Rate",
             value=f"{rate5_10:.2%}"
