@@ -150,7 +150,7 @@ if df_1h is not None:
                         options=["All"] + sorted(df_1h["phh_hit_bucket"].dropna().unique().tolist()),
                         horizontal=False,
                         )
-    phl_hit_time_filter = q_col2.radio("PHL Hit Time",
+    phl_hit_time_filter = q_col12.radio("PHL Hit Time",
                         options=["All"] + sorted(df_1h["phl_hit_bucket"].dropna().unique().tolist()),
                         horizontal=False,
                         )
