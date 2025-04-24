@@ -358,7 +358,8 @@ if df_1h is not None:
             y="count_0_5",
             title="0–5 ORB Max Retracement",
             labels={"bucket":"Retracement Interval","count_0_5":"Count"},
-            text=cnt_0_5['cum_pct'].apply(lambda x: f"{x:.1%}")   # <--- cumulative %
+            text=cnt_0_5['cum_pct'].apply(lambda x: f"{x:.1%}")  ,
+            color_discrete_sequence=['#0e3a66']# <--- cumulative %
         )
         fig_ret0.update_layout(xaxis_tickangle=-45)
         st.plotly_chart(fig_ret0, use_container_width=True)
@@ -370,7 +371,8 @@ if df_1h is not None:
             y="count_5_10",
             title="5–10 ORB Max Retracement",
             labels={"bucket":"Retracement Interval","count_5_10":"Count"},
-            text=cnt_5_10['cum_pct'].apply(lambda x: f"{x:.1%}")
+            text=cnt_5_10['cum_pct'].apply(lambda x: f"{x:.1%}"),
+            color_discrete_sequence=['#0e3a66']
         )
         fig_ret1.update_layout(xaxis_tickangle=-45)
         st.plotly_chart(fig_ret1, use_container_width=True)
