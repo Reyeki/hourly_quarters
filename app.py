@@ -318,6 +318,58 @@ if df_1h is not None:
     col2.plotly_chart(fig_low, use_container_width=True)
     col3.plotly_chart(fig_high, use_container_width=True)
 
+    # 1) Define your bins & labels
+    bins   = [i/10 for i in range(0, 11)]                          # [0.0,0.1,...,1.0]
+    labels = [f"{i/10:.1f}–{(i+1)/10:.1f}" for i in range(0, 10)]  # "0.0–0.1", …
+    
+    # 2) Bucket the retracements
+    #   Make sure to dropna so you don’t get a bucket called “NaN”
+    filtered_df_1h["retr_0_5_bucket"]  = pd.cut(
+        filtered_df_1h["0_5_ORB_max_retracement"].dropna(),
+        bins=bins,
+        labels=labels,
+        include_lowest=True
+    )
+    filtered_df_1h["retr_5_10_bucket"] = pd.cut(
+        filtered_df_1h["5_10_ORB_max_retracement"].dropna(),
+        bins=bins,
+        labels=labels,
+        include_lowest=True
+    )
+    
+    # 3) Count each bucket
+    cnt_0_5  = filtered_df_1h["retr_0_5_bucket"].value_counts().sort_index().reset_index()
+    cnt_5_10 = filtered_df_1h["retr_5_10_bucket"].value_counts().sort_index().reset_index()
+    cnt_0_5.columns  = ["bucket", "count_0_5"]
+    cnt_5_10.columns = ["bucket", "count_5_10"]
+    
+    # 4) Plot side-by-side
+    st.markdown("### ORB Max Retracement Distribution")
+    
+    col_ret0, col_ret1 = st.columns(2)
+    
+    with col_ret0:
+        fig_ret0 = px.bar(
+            cnt_0_5,
+            x="bucket",
+            y="count_0_5",
+            title="0–5 ORB Max Retracement",
+            labels={"bucket":"Retracement Interval","count_0_5":"Count"}
+        )
+        fig_ret0.update_layout(xaxis_tickangle=-45)
+        st.plotly_chart(fig_ret0, use_container_width=True)
+    
+    with col_ret1:
+        fig_ret1 = px.bar(
+            cnt_5_10,
+            x="bucket",
+            y="count_5_10",
+            title="5–10 ORB Max Retracement",
+            labels={"bucket":"Retracement Interval","count_5_10":"Count"}
+        )
+        fig_ret1.update_layout(xaxis_tickangle=-45)
+        st.plotly_chart(fig_ret1, use_container_width=True)
+
     # Calculate distribution of hour_direction in the filtered data
     # Normalize direction values
     filtered_df_1h['hour_direction'] = filtered_df_1h['hour_direction'].str.strip().str.title()
