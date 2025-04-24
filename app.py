@@ -313,6 +313,7 @@ if df_1h is not None:
     fig_hits.update_yaxes(range=[0, 1])
 
     # Display the two charts side by side using st.columns
+    st.markdown("### High / Low of Hour and Previous Hourly Levels")
     col1, col2, col3 = st.columns((1, 2, 2))
     col1.plotly_chart(fig_hits, use_container_width=True)
     col2.plotly_chart(fig_low, use_container_width=True)
