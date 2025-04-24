@@ -418,6 +418,8 @@ if df_1h is not None:
         fig_q.update_traces(textinfo='percent+label')
         q_cols[i].plotly_chart(fig_q, use_container_width=True)
 
+    st.caption(f"Sample size: {len(filtered_df_1h):,} rows")
+
 
 if df_3h is not None:
 
