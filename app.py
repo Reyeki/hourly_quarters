@@ -340,10 +340,10 @@ if df_1h is not None:
     # 3) Count each bucket
     cnt_0_5  = filtered_df_1h["retr_0_5_bucket"].value_counts().sort_index().reset_index()
     cnt_5_10 = filtered_df_1h["retr_5_10_bucket"].value_counts().sort_index().reset_index()
-    cnt_0_5['cum_pct']  = cnt_0_5['count_0_5'].cumsum()  / cnt_0_5['count_0_5'].sum()
-    cnt_5_10['cum_pct'] = cnt_5_10['count_5_10'].cumsum() / cnt_5_10['count_5_10'].sum()
     cnt_0_5.columns  = ["bucket", "count_0_5"]
     cnt_5_10.columns = ["bucket", "count_5_10"]
+    cnt_0_5['cum_pct']  = cnt_0_5['count_0_5'].cumsum()  / cnt_0_5['count_0_5'].sum()
+    cnt_5_10['cum_pct'] = cnt_5_10['count_5_10'].cumsum() / cnt_5_10['count_5_10'].sum()
     
     # 4) Plot side-by-side
     st.markdown("### ORB Max Retracement Distribution")
